@@ -1,0 +1,26 @@
+{
+  "name": "sway_tjzs_nodejs",
+  "version": "1.0.0",
+  "description": "2018-12-01 天津智识教育科技有限公司 Sway商战大赛项目，后台服务器开发（nodejs）",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/git_x/Sway_TJZS_NodeJS.git"
+  },
+  "author": "yexuan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "fs": "*",
+    "multer": "*",
+    "mysql": "*",
+    "nodemailer": "^4.6.8",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "path": "*",
+    "request": "*"
+  }
+}
