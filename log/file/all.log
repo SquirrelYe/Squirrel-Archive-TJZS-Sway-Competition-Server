@@ -1,0 +1,58 @@
+[2018-11-30T21:36:13.309] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:36:13' WHERE `id` = '1'
+[2018-11-30T21:36:13.323] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:55.948] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:55' WHERE `id` = '1'
+[2018-11-30T21:40:55.953] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:56.930] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:56' WHERE `id` = '1'
+[2018-11-30T21:40:56.937] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:57.633] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:57' WHERE `id` = '1'
+[2018-11-30T21:40:57.636] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:58.137] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:58' WHERE `id` = '1'
+[2018-11-30T21:40:58.143] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:58.485] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:58' WHERE `id` = '1'
+[2018-11-30T21:40:58.491] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:58.978] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:58' WHERE `id` = '1'
+[2018-11-30T21:40:58.983] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:59.431] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:59' WHERE `id` = '1'
+[2018-11-30T21:40:59.437] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:40:59.760] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:40:59' WHERE `id` = '1'
+[2018-11-30T21:40:59.763] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:00.115] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:00' WHERE `id` = '1'
+[2018-11-30T21:41:00.121] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:00.434] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:00' WHERE `id` = '1'
+[2018-11-30T21:41:00.437] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:15.908] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:15' WHERE `id` = '1'
+[2018-11-30T21:41:15.914] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:16.246] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:16' WHERE `id` = '1'
+[2018-11-30T21:41:16.249] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:16.698] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:16' WHERE `id` = '1'
+[2018-11-30T21:41:16.700] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:17.024] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:17' WHERE `id` = '1'
+[2018-11-30T21:41:17.027] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:17.328] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:17' WHERE `id` = '1'
+[2018-11-30T21:41:17.330] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:17.770] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:17' WHERE `id` = '1'
+[2018-11-30T21:41:17.776] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:18.106] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:18' WHERE `id` = '1'
+[2018-11-30T21:41:18.112] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:18.451] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:18' WHERE `id` = '1'
+[2018-11-30T21:41:18.457] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:18.940] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:18' WHERE `id` = '1'
+[2018-11-30T21:41:18.947] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:53.812] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:53' WHERE `id` = '1'
+[2018-11-30T21:41:53.816] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:54.330] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:54' WHERE `id` = '1'
+[2018-11-30T21:41:54.332] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:54.669] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:54' WHERE `id` = '1'
+[2018-11-30T21:41:54.672] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:55.187] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:55' WHERE `id` = '1'
+[2018-11-30T21:41:55.189] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:55.535] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:55' WHERE `id` = '1'
+[2018-11-30T21:41:55.543] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:55.840] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:55' WHERE `id` = '1'
+[2018-11-30T21:41:55.842] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 304 - "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:56.053] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:56' WHERE `id` = '1'
+[2018-11-30T21:41:56.056] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:41:56.526] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:41:56' WHERE `id` = '1'
+[2018-11-30T21:41:56.528] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+[2018-11-30T21:43:50.871] [INFO] ORM - Executing (default): UPDATE `usertests` SET `username`='yexuan',`updated_at`='2018-11-30 13:43:50' WHERE `id` = '1'
+[2018-11-30T21:43:50.876] [INFO] Express - ::1 - - "GET /test HTTP/1.1" 200 3 "" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
