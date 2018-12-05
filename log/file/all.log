@@ -1,1 +1,0 @@
-[2018-12-05T22:46:46.111] [INFO] Express - ::1 - - "POST /users?judge=0&username=yexuan&password=0628 HTTP/1.1" 200 270 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
