@@ -5,7 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const mail = require('./mail/mail')
 const test = require('./interface/test/test')
-const users = require('./interface/users/users')
+const admin = require('./interface/user&admin/admin')
+const sway = require('./interface/user&admin/sway')
 const log=require('./log/log')
 
 var objmulter = multer({
@@ -42,15 +43,14 @@ server.get('/index', function (req, res) {
     res.redirect('./WWW/cs.html');
 });
 
-server.use('/test', function (req, res) { //用户
+server.use('/admin', function (req, res) { //用户
     res.setHeader("Access-Control-Allow-Origin", "*");
-    test.update(req, res)
+    if(req.query.judge==0) admin.login(req, res)
 });
 
-server.use('/users', function (req, res) { //用户
+server.use('/sway', function (req, res) { //用户
     res.setHeader("Access-Control-Allow-Origin", "*");
-    if (req.query.judge == 0) users.login(req, res);
-    if (req.query.judge == null) res.redirect('./WWW/404/QYZQ.html');
+    if(req.query.judge==0) sway.login(req, res)
 });
 
 server.use('/mail',function(req,res){    

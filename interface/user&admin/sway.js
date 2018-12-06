@@ -2,17 +2,17 @@ const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
 
 // 模型层定义
-let admin = conn.define(
+let sway = conn.define(
     // 默认表名（一般这里写单数），生成时会自动转换成复数形式
     // 这个值还会作为访问模型相关的模型时的属性名，所以建议用小写形式
-    'admin',
+    'sway',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
         'Pid': {
             'type': Sequelize.INTEGER(11), // pid
             'allowNull': false,     
         },   
-        'Aid': {
+        'Cid': {
             'type': Sequelize.INTEGER(11), // aid
             'allowNull': false,        
         },
@@ -24,10 +24,6 @@ let admin = conn.define(
             'type': Sequelize.CHAR(255), //密码
             'allowNull': false
         },
-        'juris': {
-            'type': Sequelize.CHAR(255), // 权限
-            'allowNull': false,        
-        },
         'email': {
             'type': Sequelize.CHAR(255), // 邮箱
             'allowNull': false,        
@@ -38,7 +34,7 @@ let admin = conn.define(
 module.exports={
     //查询所有
     findAll:function(req,res){
-        admin.findAll().then(msg=>{
+        sway.findAll().then(msg=>{
             res.send(msg)
         },
         function(err){
@@ -47,7 +43,7 @@ module.exports={
     },
     //登录
     login:function(req,res){
-        admin.findAll({
+        sway.findAll({
             'where':{
                 'name':req.query.name,
                 'pass':req.query.pass
@@ -58,7 +54,7 @@ module.exports={
     },
     //增加
     create:function(req,res){
-        admin.create({
+        sway.create({
             'username':'yx',
             'password':'yexuan'
         }).then(msg=>{
@@ -70,7 +66,7 @@ module.exports={
     },
     //删除
     delete:function(req,res){
-        admin.destroy({
+        sway.destroy({
             'where':{
                 'username':'1'
             }
@@ -90,7 +86,7 @@ module.exports={
     //更新
     update:function(req,res){
         var s='yexuan'
-        admin.update(
+        sway.update(
             {'username':`${s}`},
             {'where':{
                 'id':'1'
