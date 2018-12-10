@@ -80,7 +80,11 @@ server.use('/admin', function (req, res) { //用户
 
 server.use('/sway', function (req, res) { //用户
     res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) company.login(req, res)
+    if(req.query.judge==0) sway.login(req, res)
+    if(req.query.judge==1) sway.selectNameFirst(req, res)
+    if(req.query.judge==2) sway.selectUsersByEmail(req, res)
+    if(req.query.judge==3) sway.create(req, res)
+    if(req.query.judge==4) sway.updatePass(req, res)
 });
 
 server.use('/company', function (req, res) { 

@@ -28,6 +28,7 @@ module.exports = {
                     // 字段以下划线（_）来分割（默认是驼峰命名风格）
                     'underscored': true
                 },
+                timezone: '+08:00',
                 logging:log.info
             }
         )

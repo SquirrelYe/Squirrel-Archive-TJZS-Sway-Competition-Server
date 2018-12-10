@@ -68,8 +68,8 @@ module.exports={
             'legal':req.query.legal,
             'code':req.query.code,
             'area':req.query.area,
-            'condition':req.query.condition,
-            'other':req.query.other,
+            'condition':0,
+            'other':req.query.others,
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
         },
