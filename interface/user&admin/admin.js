@@ -20,6 +20,10 @@ let admin = conn.define(
             'type': Sequelize.CHAR(255), // 用户名
             'allowNull': false,        
         },
+        'cname': {
+            'type': Sequelize.CHAR(255), // 中文名
+            'allowNull': false,        
+        },
         'pass': {
             'type': Sequelize.CHAR(255), //密码
             'allowNull': false
