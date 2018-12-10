@@ -2,7 +2,7 @@ const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
 
 // 模型层定义
-let industoryyield = conn.define(
+let industryyield = conn.define(
     // 默认表名（一般这里写单数），生成时会自动转换成复数形式
     // 这个值还会作为访问模型相关的模型时的属性名，所以建议用小写形式
     'industoryyield',
@@ -38,10 +38,10 @@ let industoryyield = conn.define(
 );
 
 module.exports={
-    industoryyield,
+    industryyield,
     //查询所有
     findAll:function(req,res){
-        industoryyield.findAll().then(msg=>{
+        industryyield.findAll().then(msg=>{
             res.send(msg)
         },
         function(err){
@@ -50,7 +50,7 @@ module.exports={
     },
     //增加
     create:function(req,res){
-        industoryyield.create({
+        industryyield.create({
             'Sid':req.query.Sid,
             'Cid':req.query.Cid,
             'thingid':req.query.thingid,
@@ -67,7 +67,7 @@ module.exports={
     },
     //删除
     delete:function(req,res){
-        industoryyield.destroy({
+        industryyield.destroy({
             'where':{
                 'id':req.query.id,
             }
@@ -86,7 +86,7 @@ module.exports={
     },
     //更新
     update:function(req,res){
-        industoryyield.update(
+        industryyield.update(
             {
                 'Sid':req.query.Sid,
                 'Cid':req.query.Cid,
