@@ -99,7 +99,7 @@ module.exports={
                 'price':req.query.price,
             },
             {'where':{
-                'GCid':'1'
+                'GCid':req.query.GCid
             }
         }).then(msg=>{
             res.send(msg);

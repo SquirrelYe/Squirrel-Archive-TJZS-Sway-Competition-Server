@@ -126,11 +126,9 @@ module.exports={
             }
         }).then(row=> {
             if(row === 0){
-                console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": "false" }`);
              }else{
-                console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": "true" }`);
              }
           },
           function(err){

@@ -10,19 +10,23 @@ let source = conn.define(
     {
         'Sid': {
             'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
+            'allowNull': true,     
         },   
         'YLid': {
             'type': Sequelize.INTEGER(11), // 矿区原料id
-            'allowNull': false,        
+            'allowNull': true,        
         },
         'Aid': {
             'type': Sequelize.INTEGER(11), // 管理员id
-            'allowNull': false,        
+            'allowNull': true,        
         },
         'name': {
             'type': Sequelize.CHAR(255), //原料名称
-            'allowNull': false
+            'allowNull': true
+        },
+        'mining_id': {
+            'type': Sequelize.INTEGER(11), //外键 矿区
+            'allowNull': true
         },
     }
 );

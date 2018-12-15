@@ -10,51 +10,51 @@ let mining = conn.define(
     {
         'Sid': {
             'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
+            'allowNull': true,     
         },   
         'Yearid': {
             'type': Sequelize.INTEGER(11), // 财年
-            'allowNull': false,        
+            'allowNull': true,        
         },
         'Kid': {
             'type': Sequelize.INTEGER(11), // 矿区id
-            'allowNull': false,        
+            'allowNull': true,        
         },
         'Aid': {
             'type': Sequelize.INTEGER(11), //管理员id
-            'allowNull': false
+            'allowNull': true
         },
         'YLid': {
             'type': Sequelize.INTEGER(11), //矿区原料属性
-            'allowNull': false
+            'allowNull': true
         },
         'star': {
             'type': Sequelize.CHAR(255), //矿区星级
-            'allowNull': false
+            'allowNull': true
         },
         'reserve': {
             'type': Sequelize.DOUBLE(255), //储量
-            'allowNull': false
+            'allowNull': true
         },
         'deprelief': {
             'type': Sequelize.DOUBLE(255), //折旧减免
-            'allowNull': false
+            'allowNull': true
         },
         'repurchase': {
             'type': Sequelize.DOUBLE(255), //回购价值
-            'allowNull': false
+            'allowNull': true
         },
         'price': {
             'type': Sequelize.DOUBLE(10), //成交价
-            'allowNull': false
+            'allowNull': true
         },
         'condition': {
             'type': Sequelize.INTEGER(10), //状态
-            'allowNull': false
+            'allowNull': true
         },
         'belong': {
             'type': Sequelize.INTEGER(10), //竞得公司
-            'allowNull': false
+            'allowNull': true
         },
     }
 );
@@ -77,7 +77,7 @@ module.exports={
             'Yearid':req.query.Yearid,
             'Kid':req.query.Kid,
             'Aid':req.query.Aid,
-            'Ylid':req.query.YLid,
+            'YLid':req.query.YLid,
             'star':req.query.star,
             'reserve':req.query.reserve,
             'deprelief':req.query.deprelief,

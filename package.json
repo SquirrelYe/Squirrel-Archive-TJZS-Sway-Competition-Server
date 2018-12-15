@@ -13,6 +13,7 @@
   "author": "yexuan",
   "license": "ISC",
   "dependencies": {
+    "asyncawait": "^1.0.7",
     "body-parser": "*",
     "co": "^4.6.0",
     "express": "*",
