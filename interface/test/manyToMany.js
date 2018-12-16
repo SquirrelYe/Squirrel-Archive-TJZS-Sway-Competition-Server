@@ -26,9 +26,9 @@ var Tagging = conn.define('tagging', {
 });
 
 // Note的实例拥有getTags、setTags、addTag、addTags、createTag、removeTag、hasTag方法
-Note.belongsToMany(Tag, {'through': Tagging});
+Note_mtm.belongsToMany(Tag, {'through': Tagging});
 // Tag的实例拥有getNotes、setNotes、addNote、addNotes、createNote、removeNote、hasNote方法
-Tag.belongsToMany(Note, {'through': Tagging});
+Tag.belongsToMany(Note_mtm, {'through': Tagging});
 
 module.exports = {
     creat:function(req, res){
@@ -39,60 +39,41 @@ module.exports = {
             res.send(msg);
         });
     },
-    async create1(req,res) {
-        //例如我们tag表有2条数据，[{id:1,name:'标签1'},{id:2,name:'标签2'}]
-        //传递进来的data = {name:'文章1',tagIds:[1,2]}
-            let n = await Note_mtm.create({title: '4'}); //返回创建的post对象
-            let t = await Tag.findAll({where: {id: data['tagIds']}})//找到对应的tagId对象
-            //let t = await Tag.findAll()//找到对应的tagId对象
-            console.log(t);
-            await n.setTags(t)//通过setTags方法在postTag表添加记录
-            .then(msg=>{
-                res.send(msg)
-            })
-            .catch(function (err) {
-                console.log(err);
-              }) 
-            // return true
-            
-            //以上操作会给post表创建一条新的记录，{id:1,name:'文章1'}
-            //给postTag表添加2条记录,[{id:1,postId:1,tagId:1},{id:2,post:1,tagId:2}]
-        },
     add: function (req, res) {
         co(function* () {
-            // code here
-            var note = yield Note_mtm.create({'title': '6'});
-            var tag = yield Tag.create({'name': '6'});
-            yield note.addTag(tag, {'type': 1});
-            // let t = await Tag.findAll()//找到对应的tagId对象
+            //增加一条数据 关联  tag -> note 逻辑： 新建一条 tag 将其关联到 note （配置 挖掘机 -> 矿区）
+            var n = yield Note_mtm.findById('6') //找到 矿区
+            var t = yield Tag.findById('1') // 购买 挖掘机
+            yield n.addTag(t, {'type': 1}) //关联
+            .then(msg => {
+                res.send(msg);
+            });
         }).catch(function(e) {
             console.log(e);
       });
     },
     
     update: function (req, res) {
-        User2.update({
-            'id': '2'
-        }, {
-            'where': {
-                'id': '1'
-            }
-        }).then(msg => {
-            res.send(msg);
-        })
+        co(function* () {
+            //修改一条数据 关联  tag -> 新note 逻辑： 找到一条 tag 将其关联到 新note （配置 挖掘机 -> 新矿区）
+            var n = yield Note_mtm.findById('2') //找到 新矿区
+            var t = yield Tag.findById('1') // 找到 挖掘机
+            yield t.setNote_mtms(n, {'type': 1}) //关联
+            .then(msg => {
+                res.send(msg);
+            });
+        }).catch(function(e) {
+            console.log(e);
+      });
     },
     del: function (req, res) {
-        //User.hasOne(Account);
-        //Account.belongsTo(User);
-        //外键建立在Account端 
-        //默认 删除设空，更新级联
-        User2.destroy({
-            'where': {
-                'id': '1'
-            }
-        }).then(msg => {
-            res.send(msg);
-        })
+        co(function* () {
+            var n = yield Note_mtm.findById('2') //找到 矿区
+            yield n.setTags(null) //关联： 给 矿区 设置 null （注意，setUser_otm 不加 s）
+            .then(msg => {
+                res.send(msg);
+            })
+        });
     },
     find: function (req, res) {
         Note_mtm.findAll({

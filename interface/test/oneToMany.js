@@ -40,7 +40,7 @@ module.exports = {
         co(function* () {
             var u = yield User_otm.findById('9') //找到公司
             var n = yield Note_otm.create({'title':'3'}) //新建 参赛者
-            yield u.setNote_otms(n, {'type': 1}); //关联
+            yield u.addNote_otms(n, {'type': 1}); //关联
         })
         .then(msg => {
             res.send(msg);
@@ -55,7 +55,7 @@ module.exports = {
             var u = yield User_otm.findById('9') //找到公司
             var n = yield Note_otm.findAll({where:{'id':['6','7']}}) //找到多个 参赛者
             yield u.addNote_otms(n, {'type': 1});   //匹配 （追加外键关联）
-            // yield u.setNote_otms(9, {'type': 1});  //如果知道 id，可以直接传 user表的id
+            // yield u.addNote_otms(9, {'type': 1});  //如果知道 id，可以直接传 user表的id
         })
         .then(msg => {
             res.send(msg);

@@ -329,7 +329,7 @@ server.use('/onetomany',function(req,res){
 
 server.use('/manytomany',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==-1) manyToMany.create1(req,res);
+    if(req.query.judge==-1) manyToMany.create(req,res);
     if(req.query.judge==0) manyToMany.add(req,res);
     if(req.query.judge==1) manyToMany.update(req,res);
     if(req.query.judge==2) manyToMany.del(req,res);
