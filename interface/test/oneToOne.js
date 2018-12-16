@@ -15,10 +15,10 @@ var note = conn.define('note', {
         'allowNull': false
     }
 });
-/*User   getAccount setAccount addAccount */
+/*User   getNote setNote addNote */
 user.hasOne(note);
-/*Account  getUser setUser addUser */
-note.belongsTo(user);
+/*Note  getUser setUser addUser */
+note.belongsTo(user);   //执行完成 在 notes表会生成 user_id 外键
 
 module.exports = {
     creat: function (req, res) {
@@ -29,12 +29,11 @@ module.exports = {
         });
     },
     add: function (req, res) {
-        //增加一条数据 关联 note -> user
+        //增加一条数据 关联 note -> user 逻辑： 新建一条 note 将其关联到 user
         co(function* () {
-            var u = yield user.create({'name': '2'});
-            var n = yield note.findById('1') 
-            // console.log(u)
-            yield u.getNote(n)
+            var n = yield note.create({'title': 'c'}); //新建 note 
+            var u = yield user.findById('1')  //传入 id 找到 user
+            yield n.setUser(u) //关联： 给 note 设置 user
             .then(msg => {
                 res.send(msg);
             })
@@ -43,34 +42,35 @@ module.exports = {
         });
     },
     update: function (req, res) {
-        User_otm.update({
-            'id': '2'
-        }, {
-            'where': {
-                'id': '1'
-            }
-        }).then(msg => {
-            res.send(msg);
-        })
+        //更新一条数据 关联 note -> 新user 逻辑： 找到一条 note 将其关联到 新user
+        co(function* () {
+            var n = yield note.findById('4') //找到 note 
+            var u = yield user.findById('2')  //传入 id 找到 新user
+            yield n.setUser(u) //关联： 给 note 设置 新user
+            .then(msg => {
+                res.send(msg);
+            })
+        }).catch(function (e) {
+            console.log(e);
+        });
     },
     del: function (req, res) {
-        //User.hasOne(Account);
-        //Account.belongsTo(User);
-        //外键建立在Account端 
-        //默认 删除设空，更新级联
-        User_otm.destroy({
-            'where': {
-                'id': '1'
-            }
-        }).then(msg => {
-            res.send(msg);
-        })
+        //删除一条数据 关联 note -> null 逻辑： 找到一条 note 将其关联到 null（解除关联）
+        co(function* () {
+            var n = yield note.findById('4') //找到 note 
+            yield n.setUser(null) //关联： 给 note 设置 新user
+            .then(msg => {
+                res.send(msg);
+            })
+        }).catch(function (e) {
+            console.log(e);
+        });
     },
     find: function (req, res) {
-        user.findAll({
+        note.findAll({
             // where: {}, user的查询条件
             include: {
-                model: note, // 关联查询
+                model: user, // 关联查询，关联外键模型
                 // where: {} // Account的查询条件
             }
         }).then(msg => {

@@ -17,6 +17,7 @@ var Tag = conn.define('tag', {
         'unique': true
     }
 });
+// 中间表
 var Tagging = conn.define('tagging', {
     'type': {
         'type': Sequelize.INTEGER(),
@@ -24,8 +25,10 @@ var Tagging = conn.define('tagging', {
     }
 });
 
-Note_mtm.belongsToMany(Tag, {'through': Tagging});
-Tag.belongsToMany(Note_mtm, {'through': Tagging});
+// Note的实例拥有getTags、setTags、addTag、addTags、createTag、removeTag、hasTag方法
+Note.belongsToMany(Tag, {'through': Tagging});
+// Tag的实例拥有getNotes、setNotes、addNote、addNotes、createNote、removeNote、hasNote方法
+Tag.belongsToMany(Note, {'through': Tagging});
 
 module.exports = {
     creat:function(req, res){
