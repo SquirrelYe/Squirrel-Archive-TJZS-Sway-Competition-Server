@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let compete = conn.define(
@@ -8,37 +9,36 @@ let compete = conn.define(
     'compete',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-          
-        
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        }, 
-        'Cid': {
-            'type': Sequelize.INTEGER(11), // 公司id
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'Yearid': {
             'type': Sequelize.INTEGER(11), // 财年
-            'allowNull': false,     
+            'allowNull': judge,     
         }, 
         'type': {
             'type': Sequelize.INTEGER(11), // 竞标物品种类
-            'allowNull': false,     
+            'allowNull': judge,     
         }, 
         'thingid': {
             'type': Sequelize.INTEGER(11), // 竞拍物品id
-            'allowNull': false,     
+            'allowNull': judge,     
         }, 
         'auction': {
             'type': Sequelize.DOUBLE(255), // 竞拍价
-            'allowNull': false,     
+            'allowNull': judge,     
         }, 
         'condition': {
             'type': Sequelize.INTEGER(11), // 竞拍状态
-            'allowNull': false,     
-        }, 
-
+            'allowNull': judge,     
+        },
+        'company_id':{
+            'type': Sequelize.INTEGER(11),
+            'allowNull': judge,
+        } 
     }
 );
 
@@ -55,35 +55,40 @@ module.exports={
     },
     //增加
     create:function(req,res){
-        compete.create({
-            'Sid':req.query.Sid,
-            'Cid':req.query.Cid,
-            'Yearid':req.query.Yearid,
-            'type':req.query.type,
-            'thingid':req.query.thingid,
-            'auction':req.query.auction,
-            'condition':req.query.condition,
+        compete.findOrCreate({
+            where:{
+                'type':req.query.type,
+                'thingid':req.query.thingid,
+            },
+            defaults:{
+                'id':req.query.id,
+                'Yearid':req.query.Yearid,
+                'type':req.query.type,
+                'thingid':req.query.thingid,
+                'auction':req.query.auction,
+                'condition':req.query.condition,
+                'company_id':req.query.company_id,
+            }
         }).then(msg=>{
-            res.send(`{ "success": "true" }`);
+            res.send(msg);
         },
         function(err){
             res.send(`{ "success": "false" }`);
-            console.log(err); 
         });
     },
     //删除
     delete:function(req,res){
         compete.destroy({
             'where':{
-                'thingid':req.query.thingid,
+                'id':req.query.id,
             }
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -94,20 +99,92 @@ module.exports={
     update:function(req,res){
         compete.update(
             {
-                'Sid':req.query.Sid,
-                'Cid':req.query.Cid,
                 'Yearid':req.query.Yearid,
                 'type':req.query.type,
+                'thingid':req.query.thingid,
                 'auction':req.query.auction,
+                'condition':req.query.condition,
+                'company_id':req.query.company_id,
+            },
+            {'where':{
+                'id':req.query.id,
+            }
+        }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    updatePrice:function(req,res){
+        compete.update(
+            {
+                'auction':req.query.auction,
+                'condition':req.query.condition,
+                'Yearid':req.query.Yearid
+
+            },
+            {'where':{
+                'type':req.query.type,
+                'thingid':req.query.thingid,
+                'company_id':req.query.company_id
+            }
+        }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    updateCondition:function(req,res){
+        compete.update(
+            {
                 'condition':req.query.condition,
             },
             {'where':{
+                'type':req.query.type,
                 'thingid':req.query.thingid,
+                'company_id':req.query.company_id
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findByCompanyId:function(req,res){
+        compete.findAll({
+            where:{'company_id':req.query.company_id}}
+            )
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
+    findMaxPrice:function(req,res){
+        compete.findOne({
+            'attributes':['auction']
+        ,
+        'where':{ 
+            'type':req.query.type,
+            'thingid':req.query.thingid,
+            'company_id':req.query.company_id
+        }
+    }).then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
+    //查询某一财年的矿区总成交价
 
 }
 

@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let admin = conn.define(
@@ -8,38 +9,37 @@ let admin = conn.define(
     'admin',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Pid': {
-            'type': Sequelize.INTEGER(11), // pid
-            'allowNull': false,     
-        },   
-        'Aid': {
-            'type': Sequelize.INTEGER(11), // aid
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },    
         'name': {
-            'type': Sequelize.CHAR(255), // 用户名
-            'allowNull': false,        
-        },
-        'cname': {
             'type': Sequelize.CHAR(255), // 中文名
-            'allowNull': false,        
+            'allowNull': judge,        
         },
         'pass': {
             'type': Sequelize.CHAR(255), //密码
-            'allowNull': false
+            'allowNull': judge,
         },
         'juris': {
             'type': Sequelize.CHAR(255), // 权限
-            'allowNull': false,        
+            'allowNull': judge,        
         },
         'email': {
             'type': Sequelize.CHAR(255), // 邮箱
-            'allowNull': false,        
+            'allowNull': judge,        
+        },
+        'cname':{
+            'type':Sequelize.CHAR(255),
+            'allowNull':judge,
         }
     }
 );
 
 module.exports={
+    admin,
     //查询所有
     findAll:function(req,res){
         admin.findAll().then(msg=>{
@@ -51,7 +51,7 @@ module.exports={
     },
     //登录
     login:function(req,res){
-        admin.findAll({
+        admin.findOne({
             'where':{
                 'name':req.query.name,
                 'pass':req.query.pass
@@ -63,8 +63,9 @@ module.exports={
     //增加
     create:function(req,res){
         admin.create({
-            'username':'yx',
-            'password':'yexuan'
+            'id':req.query.id,
+            'name':res.query.name,
+            'pass':res.query.pass,
         }).then(msg=>{
             res.send(msg);
         },
@@ -76,15 +77,15 @@ module.exports={
     delete:function(req,res){
         admin.destroy({
             'where':{
-                'username':'1'
+                'id':res.query.id,
             }
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -93,16 +94,29 @@ module.exports={
     },
     //更新
     update:function(req,res){
-        var s='yexuan'
         admin.update(
-            {'username':`${s}`},
+            {'name':res.query.name},
             {'where':{
-                'id':'1'
+                'id':res.query.id,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        admin.findById(req.query.id).then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
+    
 }
 
 

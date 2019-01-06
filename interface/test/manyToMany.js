@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize')
 const conn = require('../../promise/promise').connection();
-var async = require('asyncawait/async');
-var await = require('asyncawait/await');
 var co = require('co');  //yield
 
 var Note_mtm = conn.define('Note_mtm', {

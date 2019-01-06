@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let digger = conn.define(
@@ -8,33 +9,27 @@ let digger = conn.define(
     'digger',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        },   
-        'Wid': {
-            'type': Sequelize.INTEGER(11), // 挖掘机id
-            'allowNull': false,        
-        },
-        'Aid': {
-            'type': Sequelize.INTEGER(11), // 管理员id
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'model': {
             'type': Sequelize.CHAR(255), //挖掘机型号
-            'allowNull': false
+            'allowNull': judge,
         },
         'price': {
             'type': Sequelize.DOUBLE(255), //购置价格
-            'allowNull': false
+            'allowNull': judge,
         },
         'efficient': {
             'type': Sequelize.DOUBLE(255), //挖掘效率
-            'allowNull': false
+            'allowNull': judge,
         },
         'deprelief': {
             'type': Sequelize.DOUBLE(255), //价值折扣
-            'allowNull': false
+            'allowNull': judge,
         },
     }
 );
@@ -53,9 +48,7 @@ module.exports={
     //增加
     create:function(req,res){
         digger.create({
-            'Sid':req.query.Sid,
-            'Wid':req.query.Wid,
-            'Aid':req.query.Aid,
+            'id':req.query.id,
             'model':req.query.model,
             'price':req.query.price,
             'efficient':req.query.efficient,
@@ -77,10 +70,10 @@ module.exports={
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -91,9 +84,6 @@ module.exports={
     update:function(req,res){
         digger.update(
             {
-                'Sid':req.query.Sid,
-                'Wid':req.query.Wid,
-                'Aid':req.query.Aid,
                 'model':req.query.model,
                 'price':req.query.price,
                 'efficient':req.query.efficient,
@@ -103,9 +93,23 @@ module.exports={
                 'id':req.query.id,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        digger.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 

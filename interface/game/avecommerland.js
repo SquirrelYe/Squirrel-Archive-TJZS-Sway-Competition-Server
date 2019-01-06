@@ -1,35 +1,40 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
-let companyinit = conn.define(
+let avecommerland = conn.define(
     // 默认表名（一般这里写单数），生成时会自动转换成复数形式
     // 这个值还会作为访问模型相关的模型时的属性名，所以建议用小写形式
-    'companyinit',
+    'avecommerland',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
-    {
-          
-        'Cid': {
-            'type': Sequelize.INTEGER(11), // 参赛者id
-            'allowNull': false,        
-        },
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        }, 
+    {  
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'Yearid': {
             'type': Sequelize.INTEGER(11), // 财年
-            'allowNull': false,     
-        }, 
-
+            'allowNull': judge,        
+        },
+        'model': {
+            'type': Sequelize.INTEGER(11), 
+            'allowNull': judge,        
+        },
+        'average': {
+            'type': Sequelize.DOUBLE(11), 
+            'allowNull': judge,        
+        },
     }
 );
 
 module.exports={
-    companyinit,
+    avecommerland,
     //查询所有
     findAll:function(req,res){
-        companyinit.findAll().then(msg=>{
+        avecommerland.findAll().then(msg=>{
             res.send(msg)
         },
         function(err){
@@ -38,10 +43,11 @@ module.exports={
     },
     //增加
     create:function(req,res){
-        companyinit.create({
-            'Cid':req.query.Cid,
-            'Sid':req.query.Sid,
+        avecommerland.create({
+            'id':req.query.id,
             'Yearid':req.query.Yearid,
+            'model':req.query.model,
+            'average':req.query.average,
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
         },
@@ -52,17 +58,17 @@ module.exports={
     },
     //删除
     delete:function(req,res){
-        companyinit.destroy({
+        avecommerland.destroy({
             'where':{
-                'Cid':req.query.Cid,
+                'id':req.query.id,
             }
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -71,18 +77,33 @@ module.exports={
     },
     //更新
     update:function(req,res){
-        companyinit.update(
+        avecommerland.update(
             {
-                'Sid':req.query.Sid,
                 'Yearid':req.query.Yearid,
+                'model':req.query.model,
+                'average':req.query.average,
             },
             {'where':{
-                'Cid':req.query.Cid,
+                'id':req.query.id,
             }
         }).then(msg=>{
+            res.send(`{ "success": true }`);
+        },
+        function(err){
+            res.send(`{ "success": false }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        avecommerland.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 

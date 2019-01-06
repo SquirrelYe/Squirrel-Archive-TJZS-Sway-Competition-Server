@@ -1,5 +1,10 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
+const company=require('../../interface/user&admin/company').company
+
+
+
 
 // 模型层定义
 let sway = conn.define(
@@ -8,35 +13,52 @@ let sway = conn.define(
     'sway',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Pid': {
-            'type': Sequelize.INTEGER(11), // pid
-            'allowNull': false,     
-        },   
-        'Cid': {
-            'type': Sequelize.INTEGER(11), // aid
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },    
         'name': {
-            'type': Sequelize.CHAR(255), // 用户名
-            'allowNull': false,        
-        },
-        'cname': {
-            'type': Sequelize.CHAR(255), // 中文名
-            'allowNull': false,        
+            'type': Sequelize.CHAR(255), // 用户名 
+            'allowNull': judge,        
         },
         'pass': {
             'type': Sequelize.CHAR(255), //密码
-            'allowNull': false
+            'allowNull': judge,
         },
         'email': {
             'type': Sequelize.CHAR(255), // 邮箱
-            'allowNull': false,        
+            'allowNull': judge,        
+        },
+        'office': {
+            'type': Sequelize.CHAR(255), // 邮箱
+            'allowNull': judge,        
+        },
+        'company_id': {
+            'type': Sequelize.INTEGER(11),
+            'allowNull': judge,        
+        },
+        'cname':{
+            'type': Sequelize.CHAR(255), 
+            'allowNull': judge, 
         }
     }
 );
 
+//外键在 
+company.hasMany(sway, {
+    foreignKey: 'company_id',
+    constraints: false
+});
+sway.belongsTo(company, {
+    foreignKey: 'company_id',
+    constraints: false
+});
+
 module.exports={
     //查询所有
+    sway,
     findAll:function(req,res){
         sway.findAll().then(msg=>{
             res.send(msg)
@@ -53,7 +75,7 @@ module.exports={
             }
         }).then(msg=>{
             if(msg.length==0){
-                res.send(`{ "success": "true" }`);
+                res.send(`{ "success": true }`);
             }else{
                 res.send(`{ "success": "oversize" }`);
             }
@@ -70,36 +92,65 @@ module.exports={
             }
         }).then(msg=>{
             if(msg.length==0){
-                res.send(`{ "success": "true" }`);
+                res.send(`{ "success": true }`);
             }else{
                 res.send(`{ "success": "oversize" }`);
+            } 
+        },
+        function(err){
+            console.log(err); 
+        });        
+    },
+    selectUsersHaveCompany:function(req,res){
+        sway.findAll({
+                'attributes':['company_id']
+            ,
+            'where':{ 
+                'id':req.query.sway_id
+            }
+        }).then(msg=>{ 
+            if(msg[0].company_id==null){
+                res.send(`{ "success": true }`);
+            }else{
+                res.send(`{ "success": false }`);
             }
         },
         function(err){
             console.log(err); 
         });        
     },
+    
     //登录
     login:function(req,res){
-        sway.findAll({
+        sway.findOne({
             'where':{
                 'name':req.query.name,
                 'pass':req.query.pass
-            }
+            },
+            include: {model:company}
         }).then(msg=>{
             res.send(msg);
-        })
+        },
+        function(err){
+            console.log(err); 
+        });
     },
+    
     //注册用户
     create:function(req,res){
-        sway.create({
-            'Pid':1,
-            'Cid':1,
-            'name':req.query.name,
-            'cname':req.query.cname,
-            'pass':req.query.pass,
-            'email':req.query.email,
-
+        sway.findOrCreate({
+            where: {
+                'name':req.query.name,
+                'email':req.query.email
+            },
+            defaults: {                
+                'name':req.query.name,
+                'pass':req.query.pass,
+                'email':req.query.email,
+                'office':null,
+                'company_id':null,
+                'cname':req.query.cname,
+            }
         }).then(msg=>{
             res.send(msg);
         },
@@ -120,33 +171,80 @@ module.exports={
     },
     //删除
     delete:function(req,res){
-        sway.destroy({
-            'where':{
-                'username':'1'
+        sway.destroy(
+            {
+                where:{
+                    id:req.query.id,
+                }
             }
-        }).then(row=> {
+        ).then(row=> {
             if(row === 0){
-                res.send(`{ "success": "false" }`);
+                console.log('删除记录失败');
+                res.send(`{ "success": false }`);
              }else{
-                res.send(`{ "success": "true" }`);
+                console.log('成功删除记录');
+                res.send(`{ "success": true }`);
              }
-          },
-          function(err){
-              console.log(err); 
-        });
+          },)
     },
     //更新
     update:function(req,res){
-        var s='yexuan'
         sway.update(
-            {'username':`${s}`},
+            {
+                'name':req.query.name,
+                'pass':req.query.pass,
+                'email':req.query.email,
+                'cname':req.query.cname,
+            },
             {'where':{
-                'id':'1'
+                'id':req.query.id,
+            }
+        }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        sway.findById(req.query.id,
+            {
+                include: [{model:company}]
+            })
+            .then(msg=>{
+                res.send(msg);
+            },
+        function(err){
+            console.log(err); 
+        });
+    },
+    //查询一个公司的所有人员信息
+    findByCompanyId:function(req,res){
+        sway.findAll({'where':{
+            'company_id':req.query.company_id,
+        }}).then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
+
+    //更新职位
+    updateOffice:function(req,res){
+        sway.update(
+            {
+                'office':req.query.office
+            },
+            {'where':{
+                'id':req.query.sway_id,
             }
         }).then(msg=>{
             res.send(msg);
         })
-    }
+    },
 }
 
 

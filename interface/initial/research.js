@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let research = conn.define(
@@ -8,37 +9,31 @@ let research = conn.define(
     'research',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        },   
-        'Yid': {
-            'type': Sequelize.INTEGER(11), // 研究所id
-            'allowNull': false,        
-        },
-        'Aid': {
-            'type': Sequelize.INTEGER(11), // 管理员id
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'model': {
             'type': Sequelize.CHAR(255), //研究所型号
-            'allowNull': false
+            'allowNull': judge
         },
         'brand': {
             'type': Sequelize.DOUBLE(255), //研究所品牌提升
-            'allowNull': false
+            'allowNull': judge
         },
         'formula': {
             'type': Sequelize.DOUBLE(255), //配方工艺
-            'allowNull': false
+            'allowNull': judge
         },
         'price': {
             'type': Sequelize.DOUBLE(255), //研究所价值
-            'allowNull': false
+            'allowNull': judge
         },
         'conrequire': {
             'type': Sequelize.DOUBLE(255), //建设要求
-            'allowNull': false
+            'allowNull': judge
         },
     }
 );
@@ -57,9 +52,7 @@ module.exports={
     //增加
     create:function(req,res){
         research.create({
-            'Sid':req.query.Sid,
-            'Yid':req.query.Yid,
-            'Aid':req.query.Aid,
+            'id':req.query.id,
             'model':req.query.model,
             'brand':req.query.brand,
             'formula':req.query.formula,
@@ -77,15 +70,15 @@ module.exports={
     delete:function(req,res){
         research.destroy({
             'where':{
-                'Yid':req.query.Yid,
+                'id':req.query.id,
             }
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -96,8 +89,6 @@ module.exports={
     update:function(req,res){
         research.update(
             {
-                'Sid':req.query.Sid,
-                'Aid':req.query.Aid,
                 'model':req.query.model,
                 'brand':req.query.brand,
                 'formula':req.query.formula,
@@ -105,12 +96,26 @@ module.exports={
                 'conrequire':req.query.conrequire,
             },
             {'where':{
-                'Yid':req.query.Yid,
+                'id':req.query.id,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        research.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 

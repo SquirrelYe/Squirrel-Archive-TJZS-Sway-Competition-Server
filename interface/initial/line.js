@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let line = conn.define(
@@ -8,41 +9,35 @@ let line = conn.define(
     'line',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        },   
-        'Lid': {
-            'type': Sequelize.INTEGER(11), // 生产线id
-            'allowNull': false,        
-        },
-        'Aid': {
-            'type': Sequelize.INTEGER(11), // 管理员id
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'model': {
             'type': Sequelize.CHAR(255), //生产线型号
-            'allowNull': false
+            'allowNull': judge,
         },
         'capacity': {
             'type': Sequelize.DOUBLE(255), //生产线产能
-            'allowNull': false
+            'allowNull': judge,
         },
         'relief': {
             'type': Sequelize.DOUBLE(255), //产线价值折旧率
-            'allowNull': false
+            'allowNull': judge,
         },
         'yield': {
             'type': Sequelize.CHAR(255), //良品率
-            'allowNull': false
+            'allowNull': judge,
         },
         'price': {
             'type': Sequelize.DOUBLE(255), //生产线价值
-            'allowNull': false
+            'allowNull': judge,
         },
         'conrequire': {
             'type': Sequelize.CHAR(255), //建设要求
-            'allowNull': false
+            'allowNull': judge,
         },
     }
 );
@@ -61,9 +56,7 @@ module.exports={
     //增加
     create:function(req,res){
        line.create({
-            'Sid':req.query.Sid,
-            'Lid':req.query.Lid,
-            'Aid':req.query.Aid,
+            'id':req.query.id,
             'model':req.query.model,
             'capacity':req.query.capacity,
             'relief':req.query.relief,
@@ -82,15 +75,15 @@ module.exports={
     delete:function(req,res){
         line.destroy({
             'where':{
-                'Lid':req.query.Lid,
+                'id':req.query.id,
             }
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -101,8 +94,6 @@ module.exports={
     update:function(req,res){
         line.update(
             {
-                'Sid':req.query.Sid,
-                'Aid':req.query.Aid,
                 'model':req.query.model,
                 'capacity':req.query.capacity,
                 'relief':req.query.relief,
@@ -114,9 +105,23 @@ module.exports={
                 'Lid':req.query.Lid,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        line.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 

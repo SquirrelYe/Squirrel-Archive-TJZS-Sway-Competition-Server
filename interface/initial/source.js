@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let source = conn.define(
@@ -8,26 +9,20 @@ let source = conn.define(
     'source',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': true,     
-        },   
-        'YLid': {
-            'type': Sequelize.INTEGER(11), // 矿区原料id
-            'allowNull': true,        
-        },
-        'Aid': {
-            'type': Sequelize.INTEGER(11), // 管理员id
-            'allowNull': true,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'name': {
             'type': Sequelize.CHAR(255), //原料名称
-            'allowNull': true
+            'allowNull': judge
         },
-        'mining_id': {
-            'type': Sequelize.INTEGER(11), //外键 矿区
-            'allowNull': true
-        },
+        'price':{
+            'type':Sequelize.DOUBLE(10),
+            'allowNull':judge
+        }
     }
 );
 
@@ -45,10 +40,9 @@ module.exports={
     //增加
     create:function(req,res){
         source.create({
-            'Sid':req.query.Sid,
-            'YLid':0,
-            'Aid':req.query.Aid,
+            'id':req.query.id,
             'name':req.query.name,
+            'price':req.query.price
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
         },
@@ -61,15 +55,15 @@ module.exports={
     delete:function(req,res){
         source.destroy({
             'where':{
-                'YLid':req.query.YLid,
+                'id':req.query.id,
             }
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -80,17 +74,30 @@ module.exports={
     update:function(req,res){
         source.update(
             {
-                'Sid':req.query.Sid,
-                'Aid':req.query.Aid,
                 'name':req.query.name,
+                'price':req.query.price
             },
             {'where':{
-                'YLid':req.query.YLid,
+                'id':req.query.id,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        source.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 

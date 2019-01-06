@@ -1,5 +1,8 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
+const company=require('../user&admin/company').company
+const source=require('../initial/source').source
 
 // 模型层定义
 let mining = conn.define(
@@ -8,62 +11,83 @@ let mining = conn.define(
     'mining',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': true,     
-        },   
-        'Yearid': {
-            'type': Sequelize.INTEGER(11), // 财年
-            'allowNull': true,        
-        },
-        'Kid': {
-            'type': Sequelize.INTEGER(11), // 矿区id
-            'allowNull': true,        
-        },
-        'Aid': {
-            'type': Sequelize.INTEGER(11), //管理员id
-            'allowNull': true
-        },
-        'YLid': {
-            'type': Sequelize.INTEGER(11), //矿区原料属性
-            'allowNull': true
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'star': {
             'type': Sequelize.CHAR(255), //矿区星级
-            'allowNull': true
+            'allowNull': judge
         },
         'reserve': {
             'type': Sequelize.DOUBLE(255), //储量
-            'allowNull': true
+            'allowNull': judge
         },
         'deprelief': {
             'type': Sequelize.DOUBLE(255), //折旧减免
-            'allowNull': true
+            'allowNull': judge
         },
         'repurchase': {
             'type': Sequelize.DOUBLE(255), //回购价值
-            'allowNull': true
+            'allowNull': judge
+        },
+        'startprice':{
+            'type':Sequelize.DOUBLE(10),
+            'allowNull': judge
         },
         'price': {
             'type': Sequelize.DOUBLE(10), //成交价
-            'allowNull': true
+            'allowNull': judge
         },
         'condition': {
             'type': Sequelize.INTEGER(10), //状态
-            'allowNull': true
+            'allowNull': judge
         },
-        'belong': {
+        'Yearid': {
+            'type': Sequelize.INTEGER(11), // 财年
+            'allowNull': judge,        
+        },
+        'source_id':{
+            'type': Sequelize.INTEGER(10),
+            'allowNull': judge
+        },
+        'company_id': {
             'type': Sequelize.INTEGER(10), //竞得公司
-            'allowNull': true
+            'allowNull': judge
         },
     }
 );
 
+company.hasOne(mining, {
+    foreignKey: 'company_id',
+    constraints: false
+});
+mining.belongsTo(company, {
+    foreignKey: 'company_id',
+    constraints: false
+});
+
+source.hasOne(mining, {
+    foreignKey: 'source_id',
+    constraints: false
+});
+mining.belongsTo(source, {
+    foreignKey: 'source_id',
+    constraints: false
+});
+
 module.exports={
     mining,
-    //查询所有
     findAll:function(req,res){
-        mining.findAll().then(msg=>{
+        mining.findAll(
+            {
+                include:{
+                    model:company
+                }
+            }
+        ).then(msg=>{
             res.send(msg)
         },
         function(err){
@@ -73,18 +97,17 @@ module.exports={
     //增加
     create:function(req,res){
         mining.create({
-            'Sid':req.query.Sid,
-            'Yearid':req.query.Yearid,
-            'Kid':req.query.Kid,
-            'Aid':req.query.Aid,
-            'YLid':req.query.YLid,
+            'id':req.query.id,
             'star':req.query.star,
             'reserve':req.query.reserve,
             'deprelief':req.query.deprelief,
             'repurchase':req.query.repurchase,
+            'startprice':req.query.startprice,
             'price':req.query.price,
             'condition':req.query.condition,
-            'belong':req.query.belong,
+            'Yearid':req.query.Yearid,
+            'source_id':req.query.source_id,
+            'company_id':req.query.company_id,
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
         },
@@ -102,10 +125,10 @@ module.exports={
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -116,27 +139,74 @@ module.exports={
     update:function(req,res){
         mining.update(
             {
-                'Sid':req.query.Sid,
-                'Yearid':req.query.Yearid,
-                'Kid':req.query.Kid,
-                'Aid':req.query.Aid,
-                'Ylid':req.query.YLid,
                 'star':req.query.star,
                 'reserve':req.query.reserve,
                 'deprelief':req.query.deprelief,
                 'repurchase':req.query.repurchase,
+                'startprice':req.query.startprice,
                 'price':req.query.price,
                 'condition':req.query.condition,
-                'belong':req.query.belong,
+                'Yearid':req.query.Yearid,
+                'source_id':req.query.source_id,
+                'company_id':req.query.company_id,
             },
             {'where':{
                 'id':req.query.id,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        mining.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
+    //查询未开启竞拍的矿区
+    findAllByCondition:function(req,res){
+        mining.findAll(
+            {
+                where:{
+                    'Yearid':req.query.Yearid,
+                    'condition':-2,
+                    'company_id':null
+                },
+                include:{
+                    model:source
+                }
+            }
+        ).then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
+    //计算某个公司矿区的总成交价
+    getSumofMining:function(req,res){
+        mining.findAndCountAll({
+            attributes: [[conn.literal('SUM(price)'), 'result']],
+            where:{
+                'Yearid':req.query.Yearid,
+                'condition':1
+            },
+          } ).then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            console.log(err); 
+        });
+    }
 }
 
 

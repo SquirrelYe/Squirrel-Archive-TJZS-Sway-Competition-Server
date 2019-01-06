@@ -5,15 +5,13 @@ const fs = require('fs');
 const path = require('path');
 const mail = require('./mail/mail')
 const test = require('./interface/test/test')
+const log=require('./log/log')
+
 const admin = require('./interface/user&admin/admin')
 const sway = require('./interface/user&admin/sway')
-const log=require('./log/log')
 const company=require('./interface/user&admin/company')
-const officer=require('./interface/user&admin/officer')
 const user=require('./interface/user/user')
-const system=require('./interface/system/system')
 const game=require('./interface/game/game')
-const admininit=require('./interface/initial/admininit')
 const commerland=require('./interface/initial/commerland')
 const digger=require('./interface/initial/digger')
 const factory=require('./interface/initial/factory')
@@ -22,29 +20,27 @@ const line=require('./interface/initial/line')
 const mining=require('./interface/initial/mining')
 const research=require('./interface/initial/research')
 const source=require('./interface/initial/source')
-const commerasset=require('./interface/operation/commerasset')
 const commerresearch=require('./interface/operation/commerresearch')
-const companyinit=require('./interface/operation/companyinit')
 const compete=require('./interface/operation/compete')
-const factorysetting=require('./interface/operation/factorysetting')
-const fixed=require('./interface/operation/fixed')
 const industryyield=require('./interface/operation/industryyield')
-const industryasset=require('./interface/operation/industryasset')
-const industryproduct=require('./interface/operation/industryproduct')
 const loan=require('./interface/operation/loan')
-const miniasset=require('./interface/operation/miniasset')
-const miniproduct=require('./interface/operation/miniproduct')
 const miniyield=require('./interface/operation/miniyield')
 const transaction=require('./interface/operation/transaction')
 const statistic=require('./interface/competition&statistical/statistic')
+const oem=require('./interface/operation/oem')
+const avemining=require('./interface/game/avemining')
+const aveindusland=require('./interface/game/aveindusland')
+const avecommerland=require('./interface/game/avecommerland')
+
+//关系
+const route=require('./route/route')
 
 //测试
 const oneToOne=require('./interface/test/oneToOne')
 const oneToMany=require('./interface/test/oneToMany')
 const manyToMany=require('./interface/test/manyToMany')
 
-//联系
-const source_mine=require('./associate/source_mine')
+
 
 
 var objmulter = multer({
@@ -77,6 +73,9 @@ server.use(express.static(__dirname));
 server.use('/', function (req, res, next) {
     next();
 });
+// 加载外部router
+server.use('/ass',route);
+
 server.get('/index', function (req, res) {
     res.redirect('./WWW/cs.html');
 });
@@ -85,30 +84,28 @@ server.use('/admin', function (req, res) { //用户
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==0) admin.login(req, res)
 });
-
 server.use('/sway', function (req, res) { //用户
     res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) sway.login(req, res)
+    if(req.query.judge==0) sway.findAll(req, res)
     if(req.query.judge==1) sway.selectNameFirst(req, res)
     if(req.query.judge==2) sway.selectUsersByEmail(req, res)
-    if(req.query.judge==3) sway.create(req, res)
-    if(req.query.judge==4) sway.updatePass(req, res)
+    if(req.query.judge==3) sway.login(req, res)
+    if(req.query.judge==4) sway.create(req, res)
+    if(req.query.judge==5) sway.updatePass(req, res)
+    if(req.query.judge==6) sway.delete(req,res)
+    if(req.query.judge==7) sway.update(req,res)
+    if(req.query.judge==8) sway.findById(req,res)
+    if(req.query.judge==9) sway.selectUsersHaveCompany(req,res)
+    if(req.query.judge==10) sway.findByCompanyId(req,res)
+    if(req.query.judge==11) sway.updateOffice(req,res)
 });
-
 server.use('/company', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==0) company.findAll(req, res)
     if(req.query.judge==1) company.create(req,res)
     if(req.query.judge==2) company.update(req,res)
     if(req.query.judge==3) company.delete(req,res)
-});
-server.use('/officer', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) officer.findAll(req, res)
-    if(req.query.judge==1) officer.create(req,res)
-    if(req.query.judge==2) officer.update(req,res)
-    if(req.query.judge==3) officer.delete(req,res)
-
+    if(req.query.judge==4) company.findById(req,res)
 });
 server.use('/user', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -124,26 +121,16 @@ server.use('/system', function (req, res) {
     if(req.query.judge==2) system.update(req,res)
     if(req.query.judge==3) system.delete(req,res)
 });
-server.use('/commerasset', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) commerasset.findAll(req, res)
-    if(req.query.judge==1) commerasset.create(req,res)
-    if(req.query.judge==2) commerasset.update(req,res)
-    if(req.query.judge==3) commerasset.delete(req,res)
-});
 server.use('/commerresearch', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==0) commerresearch.findAll(req, res)
     if(req.query.judge==1) commerresearch.create(req,res)
     if(req.query.judge==2) commerresearch.update(req,res)
     if(req.query.judge==3) commerresearch.delete(req,res)
-});
-server.use('/companyinit', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) companyinit.findAll(req, res)
-    if(req.query.judge==1) companyinit.create(req,res)
-    if(req.query.judge==2) companyinit.update(req,res)
-    if(req.query.judge==3) companyinit.delete(req,res)
+    if(req.query.judge==4) commerresearch.findByYl(req,res)
+    if(req.query.judge==5) commerresearch.findAllByCompany(req,res)
+    if(req.query.judge==6) commerresearch.findByCom(req,res)
+    if(req.query.judge==7) commerresearch.findById(req,res)
 });
 server.use('/compete', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -151,20 +138,9 @@ server.use('/compete', function (req, res) {
     if(req.query.judge==1) compete.create(req,res)
     if(req.query.judge==2) compete.update(req,res)
     if(req.query.judge==3) compete.delete(req,res)
-});
-server.use('/factorysetting', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) factorysetting.findAll(req, res)
-    if(req.query.judge==1) factorysetting.create(req,res)
-    if(req.query.judge==2) factorysetting.update(req,res)
-    if(req.query.judge==3) factorysetting.delete(req,res)
-});
-server.use('/fixed', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) fixed.findAll(req, res)
-    if(req.query.judge==1) fixed.create(req,res)
-    if(req.query.judge==2) fixed.update(req,res)
-    if(req.query.judge==3) fixed.delete(req,res)
+    if(req.query.judge==4) compete.updatePrice(req,res)
+    if(req.query.judge==5) compete.findMaxPrice(req,res)
+    if(req.query.judge==6) compete.findByCompanyId(req,res)
 });
 server.use('/industryyield', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -172,20 +148,8 @@ server.use('/industryyield', function (req, res) {
     if(req.query.judge==1) industryyield.create(req,res)
     if(req.query.judge==2) industryyield.update(req,res)
     if(req.query.judge==3) industryyield.delete(req,res)
-});
-server.use('/industryasset',function(req,res){
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) industryasset.findAll(req, res)
-    if(req.query.judge==1) industryasset.create(req,res)
-    if(req.query.judge==2) industryasset.update(req,res)
-    if(req.query.judge==3) industryasset.delete(req,res)
-});
-server.use('/industryproduct', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) industryproduct.findAll(req, res)
-    if(req.query.judge==1) industryproduct.create(req,res)
-    if(req.query.judge==2) industryproduct.update(req,res)
-    if(req.query.judge==3) industryproduct.delete(req,res)
+    if(req.query.judge==4) industryyield.findByCompany(req,res)
+    if(req.query.judge==5) industryyield.findByPublic(req,res)
 });
 server.use('/loan', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -193,27 +157,18 @@ server.use('/loan', function (req, res) {
     if(req.query.judge==1) loan.create(req,res)
     if(req.query.judge==2) loan.update(req,res)
     if(req.query.judge==3) loan.delete(req,res)
+    if(req.query.judge==4) loan.findByCompany(req,res)
 });
-server.use('/miniasset', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) miniasset.findAll(req, res)
-    if(req.query.judge==1) miniasset.create(req,res)
-    if(req.query.judge==2) miniasset.update(req,res)
-    if(req.query.judge==3) miniasset.delete(req,res)
-});
-server.use('/miniproduct', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) miniproduct.findAll(req, res)
-    if(req.query.judge==1) miniproduct.create(req,res)
-    if(req.query.judge==2) miniproduct.update(req,res)
-    if(req.query.judge==3) miniproduct.delete(req,res)
-});
+
 server.use('/miniyield', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==0) miniyield.findAll(req, res)
     if(req.query.judge==1) miniyield.create(req,res)
     if(req.query.judge==2) miniyield.update(req,res)
     if(req.query.judge==3) miniyield.delete(req,res)
+    if(req.query.judge==4) miniyield.findByCompany(req,res)
+    if(req.query.judge==5) miniyield.findByPublic(req,res)
+    if(req.query.judge==6) miniyield.updateSum(req,res)
 });
 server.use('/transaction', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -221,13 +176,11 @@ server.use('/transaction', function (req, res) {
     if(req.query.judge==1) transaction.create(req,res)
     if(req.query.judge==2) transaction.update(req,res)
     if(req.query.judge==3) transaction.delete(req,res)
-});
-server.use('/admininit', function (req, res) { 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) admininit.findAll(req, res)
-    if(req.query.judge==1) admininit.create(req,res)
-    if(req.query.judge==2) admininit.update(req,res)
-    if(req.query.judge==3) admininit.delete(req,res)
+    if(req.query.judge==4) transaction.findCommer(req,res)
+    if(req.query.judge==5) transaction.findSource(req,res)
+    if(req.query.judge==6) transaction.findByCommer(req,res)
+    if(req.query.judge==7) transaction.findBySource(req,res)
+    if(req.query.judge==8) transaction.findByCompany(req,res)
 });
 server.use('/commerland', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -235,6 +188,12 @@ server.use('/commerland', function (req, res) {
     if(req.query.judge==1) commerland.create(req,res)
     if(req.query.judge==2) commerland.update(req,res)
     if(req.query.judge==3) commerland.delete(req,res)
+    if(req.query.judge==4) commerland.selectLevel(req,res)
+    if(req.query.judge==5) commerland.findAllByCondition(req,res)
+    if(req.query.judge==6) commerland.findById(req,res)
+    if(req.query.judge==7) commerland.getSumofBrand(req,res)
+    if(req.query.judge==8) commerland.getSumofCommerland(req,res)
+    if(req.query.judge==9) commerland.findByCompany(req,res)
 });
 server.use('/digger', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -256,6 +215,9 @@ server.use('/indusland', function (req, res) {
     if(req.query.judge==1) indusland.create(req,res)
     if(req.query.judge==2) indusland.update(req,res)
     if(req.query.judge==3) indusland.delete(req,res)
+    if(req.query.judge==4) indusland.findByCompany(req,res)
+    if(req.query.judge==5) indusland.findAllByCondition(req,res)
+    if(req.query.judge==6) indusland.getSumofIndusland(req,res)
 });
 server.use('/line', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -270,6 +232,8 @@ server.use('/mining', function (req, res) {
     if(req.query.judge==1) mining.create(req,res)
     if(req.query.judge==2) mining.update(req,res)
     if(req.query.judge==3) mining.delete(req,res)
+    if(req.query.judge==4) mining.findAllByCondition(req,res)
+    if(req.query.judge==5) mining.getSumofMining(req,res)
 });
 server.use('/research', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -291,6 +255,31 @@ server.use('/game', function (req, res) {
     if(req.query.judge==1) game.create(req,res)
     if(req.query.judge==2) game.update(req,res)
     if(req.query.judge==3) game.delete(req,res)
+    if(req.query.judge==4) game.findById(req,res)
+});
+server.use('/avemining', function (req, res) { 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    if(req.query.judge==0) avemining.findAll(req, res)
+    if(req.query.judge==1) avemining.create(req,res)
+    if(req.query.judge==2) avemining.update(req,res)
+    if(req.query.judge==3) avemining.delete(req,res)
+    if(req.query.judge==4) avemining.findById(req,res)
+});
+server.use('/aveindusland', function (req, res) { 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    if(req.query.judge==0) aveindusland.findAll(req, res)
+    if(req.query.judge==1) aveindusland.create(req,res)
+    if(req.query.judge==2) aveindusland.update(req,res)
+    if(req.query.judge==3) aveindusland.delete(req,res)
+    if(req.query.judge==4) aveindusland.findById(req,res)
+});
+server.use('/avecommerland', function (req, res) { 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    if(req.query.judge==0) avecommerland.findAll(req, res)
+    if(req.query.judge==1) avecommerland.create(req,res)
+    if(req.query.judge==2) avecommerland.update(req,res)
+    if(req.query.judge==3) avecommerland.delete(req,res)
+    if(req.query.judge==4) avecommerland.findById(req,res)
 });
 server.use('/statistic', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -298,6 +287,21 @@ server.use('/statistic', function (req, res) {
     if(req.query.judge==1) statistic.create(req,res)
     if(req.query.judge==2) statistic.update(req,res)
     if(req.query.judge==3) statistic.delete(req,res)
+    if(req.query.judge==4) statistic.updateMoney(req,res)
+    if(req.query.judge==5) statistic.findByCompany(req,res)
+});
+
+server.use('/oem', function (req, res) { 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    if(req.query.judge==0) oem.findAll(req, res)
+    if(req.query.judge==1) oem.create(req,res)
+    if(req.query.judge==2) oem.update(req,res)
+    if(req.query.judge==3) oem.delete(req,res)
+    if(req.query.judge==4) oem.findById(req,res)
+    if(req.query.judge==5) oem.findByCompany(req,res)
+    if(req.query.judge==6) oem.deleteByOem(req,res)
+    if(req.query.judge==7) oem.deleteByOemAndCompany(req,res)
+    if(req.query.judge==8) oem.findByOther(req,res)
 });
 
 
@@ -342,5 +346,6 @@ server.use('/source_mine',function(req,res){
     if(req.query.judge==1) source_mine.find(req,res);
 
 })
+
 
 //-----------------------------------------------------------------------------------

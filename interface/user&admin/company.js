@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let company = conn.define(
@@ -8,41 +9,31 @@ let company = conn.define(
     'company',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        },   
-        'Pid': {
-            'type': Sequelize.INTEGER(11), // 用户管理id
-            'allowNull': false,        
-        },
-        'Cid': {
-            'type': Sequelize.INTEGER(11), // 公司id
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },    
         'name': {
             'type': Sequelize.CHAR(255), //公司名称
-            'allowNull': false
+            'allowNull': judge,
         },
         'legal': {
             'type': Sequelize.CHAR(255), //法人
-            'allowNull': false
+            'allowNull': judge,
         },
         'code': {
             'type': Sequelize.CHAR(255), //统一社会信用代码
-            'allowNull': true
+            'allowNull': judge,
         },
         'area': {
             'type': Sequelize.CHAR(255), //经营范围
-            'allowNull': false
+            'allowNull': judge,
         },
         'condition': {
             'type':  Sequelize.INTEGER(11), //状态
-            'allowNull': false
-        },
-        'other':{
-            'type': Sequelize.CHAR(255),
-            'allowNull':false,
+            'allowNull': judge,
         }
     }
 );
@@ -61,15 +52,52 @@ module.exports={
     //增加
     create:function(req,res){
         company.create({
-            'Sid':req.query.Pid,
-            'Pid':req.query.Pid,
-            'Cid':0,
+            'id':req.query.id,
             'name':req.query.name,
             'legal':req.query.legal,
             'code':req.query.code,
             'area':req.query.area,
-            'condition':0,
-            'other':req.query.others,
+            'condition':req.query.condition,
+        }).then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            res.send(`{ "success": false }`);
+            console.log(err); 
+        });
+    },
+    //删除
+    delete:function(req,res){
+        company.destroy({
+            'where':{
+                'id':req.query.id,
+            }
+        }).then(row=> {
+            if(row === 0){
+                console.log('删除记录失败');
+                res.send(`{ "success": false }`);
+             }else{
+                console.log('成功删除记录');
+                res.send(`{ "success": true }`);
+             }
+          },
+          function(err){
+              console.log(err);  
+        });
+    },
+    //更新
+    update:function(req,res){
+        company.update(
+            {
+                'name':req.query.name,
+                'legal':req.query.legal,
+                'code':req.query.code,
+                'area':req.query.area,
+                'condition':req.query.condition,
+            },
+            {'where':{
+                'id':req.query.id,
+            }
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
         },
@@ -78,45 +106,16 @@ module.exports={
             console.log(err); 
         });
     },
-    //删除
-    delete:function(req,res){
-        company.destroy({
-            'where':{
-                'Cid':req.query.Cid,
-            }
-        }).then(row=> {
-            if(row === 0){
-                console.log('删除记录失败');
-                res.send('error')
-             }else{
-                console.log('成功删除记录');
-                res.send('msg')
-             }
-          },
-          function(err){
-              console.log(err); 
+    //按ID查询
+    findById:function(req,res){
+        company.findById(req.query.id)
+        .then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            console.log(err); 
         });
     },
-    //更新
-    update:function(req,res){
-        company.update(
-            {
-                'Sid':req.query.Sid,
-                'Pid':req.query.Pid,
-                'name':req.query.name,
-                'legal':req.query.legal,
-                'code':req.query.code,
-                'area':req.query.area,
-                'condition':req.query.condition,
-                'other':req.query.other,
-            },
-            {'where':{
-                'Cid':req.query.Cid,
-            }
-        }).then(msg=>{
-            res.send(msg);
-        })
-    }
 
 }
 

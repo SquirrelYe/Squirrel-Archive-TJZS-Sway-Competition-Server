@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let statistic = conn.define(
@@ -8,54 +9,56 @@ let statistic = conn.define(
     'statistic',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        },   
-        'Cid': {
-            'type': Sequelize.INTEGER(11), // 公司id
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'Yearid': {
             'type': Sequelize.INTEGER(11), // 财年
-            'allowNull': false,        
+            'allowNull': judge,        
         },
         'name': {
             'type': Sequelize.CHAR(255), // 公司名称
-            'allowNull': false
+            'allowNull': judge,
         },
         'legal': {
             'type': Sequelize.CHAR(255), // 法人
-            'allowNull': false
+            'allowNull': judge,
         },
         'code': {
             'type': Sequelize.CHAR(255), // 统一社会信用代码
-            'allowNull': false
+            'allowNull': judge,
         },
         'area': {
             'type': Sequelize.CHAR(255), // 经营范围
-            'allowNull': false
+            'allowNull': judge,
         },
         'float': {
             'type': Sequelize.CHAR(255), // 流动资金
-            'allowNull': false
+            'allowNull': judge,
         },
         'fixed':{
             'type':Sequelize.CHAR(255), // 固定资金
-            'allowNull':false
+            'allowNull':judge,
         },
         'total':{
             'type':Sequelize.CHAR(255), // 总资产
-            'allowNull':false
+            'allowNull':judge,
         },
         'brand':{
             'type':Sequelize.CHAR(255), // 品牌价值
-            'allowNull':false
+            'allowNull':judge,
         },
         'condition':{
             'type':Sequelize.CHAR(255), // 状态
-            'allowNull':false
+            'allowNull':judge,
         },
+        'company_id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull':judge,
+        }
     }
 );
 
@@ -73,8 +76,7 @@ module.exports={
     //增加
     create:function(req,res){
         statistic.create({
-            'Sid':req.query.Sid,
-            'Cid':req.query.Cid,
+            'id':req.query.id,
             'Yearid':req.query.Yearid,
             'name':req.query.name,
             'legal':req.query.legal,
@@ -85,6 +87,7 @@ module.exports={
             'total':req.query.total,
             'brand':req.query.brand,
             'condition':req.query.condition,
+            'company_id':req.query.company_id,
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
         },
@@ -116,8 +119,33 @@ module.exports={
     update:function(req,res){
         statistic.update(
             {
-                'Sid':req.query.Sid,
-                'Cid':req.query.Cid,
+                'Yearid':req.query.Yearid,
+                'name':req.query.name,
+                'legal':req.query.legal,
+                'code':req.query.code,
+                'area':req.query.area,
+                'float':req.query.float,
+                'fixed':req.query.fixed,
+                'total':req.query.total,
+                'brand':req.query.brand,
+                'condition':req.query.condition,
+                'company_id':req.query.company_id,
+            },
+            {'where':{
+                'id':req.query.id,
+            }
+        }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //更新
+    updateMoney:function(req,res){
+        statistic.update(
+            {
                 'Yearid':req.query.Yearid,
                 'name':req.query.name,
                 'legal':req.query.legal,
@@ -130,12 +158,39 @@ module.exports={
                 'condition':req.query.condition,
             },
             {'where':{
-                'id':req.query.id,
+                'company_id':req.query.company_id,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        statistic.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
+    findByCompany:function(req,res){
+        statistic.findOne({
+            where:{
+                'company_id':req.query.company_id,
+            },
+        }
+        ).then(msg=>{
+            res.send(msg)
+        },
+        function(err){
+            console.log(err); 
+        });        
+    },
 
 }
 

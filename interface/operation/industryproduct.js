@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let industryproduct = conn.define(
@@ -7,37 +8,29 @@ let industryproduct = conn.define(
     // 这个值还会作为访问模型相关的模型时的属性名，所以建议用小写形式
     'industryproduct',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
-    {
-          
-        
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        }, 
-        'Cid': {
-            'type': Sequelize.INTEGER(11), // 公司id
-            'allowNull': false,        
-        },
-        'GCid': {
-            'type': Sequelize.INTEGER(11), // 工厂id
-            'allowNull': false,     
-        }, 
-        'Lid': {
-            'type': Sequelize.INTEGER(11), // 生产线id
-            'allowNull': false,     
-        }, 
+    { 
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'condition': {
             'type': Sequelize.INTEGER(11), // 生产线状态
-            'allowNull': false,     
+            'allowNull': judge,     
         }, 
         'start': {
             'type': Sequelize.DATE(11), // 生产线开始时间
-            'allowNull': false,     
+            'allowNull': judge,     
         },
         'stay': {
             'type': Sequelize.DATE(11), // 生产线生产时间
-            'allowNull': false,     
+            'allowNull': judge,     
         },
+        'indusland_id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull':judge,
+        }
     }
 );
 
@@ -55,13 +48,11 @@ module.exports={
     //增加
     create:function(req,res){
         industryproduct.create({
-            'Sid':req.query.Sid,
-            'Cid':req.query.Cid,
-            'GCid':req.query.GCid,
-            'Lid':req.query.Lid,
+            'id':req.query.id,
             'condition':req.query.condition,
             'start':req.query.start,
             'stay':req.query.stay,
+            'indusland_id':req.query.indusland_id,
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
         },
@@ -79,10 +70,10 @@ module.exports={
         }).then(row=> {
             if(row === 0){
                 console.log('删除记录失败');
-                res.send('error')
+                res.send(`{ "success": false }`);
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": true }`);
              }
           },
           function(err){
@@ -93,21 +84,32 @@ module.exports={
     update:function(req,res){
         industryproduct.update(
             {
-                'Sid':req.query.Sid,
-                'Cid':req.query.Cid,
-                'GCid':req.query.GCid,
-                'Lid':req.query.Lid,
                 'condition':req.query.condition,
                 'start':req.query.start,
                 'stay':req.query.stay,
+                'indusland_id':req.query.indusland_id,
             },
             {'where':{
                 'id':req.query.id,
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        industryproduct.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 

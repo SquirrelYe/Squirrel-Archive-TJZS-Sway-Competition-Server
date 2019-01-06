@@ -1,5 +1,6 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
+const judge=require('../../interface/TrueOrFalse').judge;
 
 // 模型层定义
 let factory = conn.define(
@@ -8,33 +9,27 @@ let factory = conn.define(
     'factory',
     // 字段定义（主键、created_at、updated_at默认包含，不用特殊定义）
     {
-        'Sid': {
-            'type': Sequelize.INTEGER(11), // 赛事id
-            'allowNull': false,     
-        },   
-        'GCid': {
-            'type': Sequelize.INTEGER(11), // 工厂id
-            'allowNull': false,        
-        },
-        'Aid': {
-            'type': Sequelize.INTEGER(11), // 管理员id
-            'allowNull': false,        
-        },
+        'id':{
+            'type':Sequelize.INTEGER(11),
+            'allowNull': judge,
+            'primaryKey':true,
+            'autoIncrement':true
+        },  
         'model': {
             'type': Sequelize.CHAR(255), //工厂型号
-            'allowNull': false
+            'allowNull': judge,
         },
         'measure': {
             'type': Sequelize.DOUBLE(255), //占用面积
-            'allowNull': false
+            'allowNull': judge,
         },
         'includeline': {
             'type': Sequelize.DOUBLE(255), //容纳生产线
-            'allowNull': false
+            'allowNull': judge,
         },
         'price': {
             'type': Sequelize.DOUBLE(255), //建设成本
-            'allowNull': false
+            'allowNull': judge,
         },
     }
 );
@@ -53,9 +48,7 @@ module.exports={
     //增加
     create:function(req,res){
         factory.create({
-            'Sid':req.query.Sid,
-            'GCid':req.query.GCid,
-            'Aid':req.query.Aid,
+            'id':req.query.id,
             'model':req.query.model,
             'measure':req.query.measure,
             'includeline':req.query.includeline,
@@ -72,7 +65,7 @@ module.exports={
     delete:function(req,res){
         factory.destroy({
             'where':{
-                'GCid':req.query.GCid,
+                'id':req.query.id,
             }
         }).then(row=> {
             if(row === 0){
@@ -91,20 +84,32 @@ module.exports={
     update:function(req,res){
         factory.update(
             {
-                'Sid':req.query.Sid,
-                'Aid':req.query.Aid,
                 'model':req.query.model,
                 'measure':req.query.measure,
                 'includeline':req.query.includeline,
                 'price':req.query.price,
             },
             {'where':{
-                'GCid':req.query.GCid
+                'id':req.query.id
             }
         }).then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    },
+    //按ID查询
+    findById:function(req,res){
+        factory.findById(req.query.id)
+        .then(msg=>{
             res.send(msg);
-        })
-    }
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 
