@@ -1,6 +1,7 @@
 const Sequelize=require('sequelize')
 const conn=require('../../promise/promise').connection();
 const judge=require('../../interface/TrueOrFalse').judge;
+const company=require('../user&admin/company').company
 
 // 模型层定义
 let compete = conn.define(
@@ -41,6 +42,16 @@ let compete = conn.define(
         } 
     }
 );
+
+//关联公司
+company.hasMany(compete, {
+    foreignKey: 'company_id',
+    constraints: false
+});
+compete.belongsTo(company, {
+    foreignKey: 'company_id',
+    constraints: false
+});
 
 module.exports={
     compete,
@@ -184,7 +195,23 @@ module.exports={
             console.log(err); 
         });
     },
-    //查询某一财年的矿区总成交价
+    //查询某一个矿区的最高出价者
+    findOneByPrice:function(req,res){
+        compete.findAll({
+            'order': [
+                ['auction', 'DESC'],
+            ],
+            where:{
+                'thingid':req.query.thingid,
+                'type':req.query.type,
+            },
+            include:{
+                model:company
+            }
+        }).then(msg => {
+            res.send(msg);
+        })
+    }
 
 }
 

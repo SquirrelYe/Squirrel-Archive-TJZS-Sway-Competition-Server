@@ -141,6 +141,7 @@ server.use('/compete', function (req, res) {
     if(req.query.judge==4) compete.updatePrice(req,res)
     if(req.query.judge==5) compete.findMaxPrice(req,res)
     if(req.query.judge==6) compete.findByCompanyId(req,res)
+    if(req.query.judge==7) compete.findOneByPrice(req,res)
 });
 server.use('/industryyield', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");

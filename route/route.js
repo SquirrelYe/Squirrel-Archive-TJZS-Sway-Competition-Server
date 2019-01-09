@@ -261,4 +261,5 @@ router.use('/indusland_factory',function(req,res){
     if(req.query.judge==6) indusland_factory.selectNumber(req,res);
     if(req.query.judge==7) indusland_factory.selectId(req,res);
     if(req.query.judge==8) indusland_factory.find_more_3(req,res);
+    if(req.query.judge==9) indusland_factory.findAll(req,res)
 })

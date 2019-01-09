@@ -131,7 +131,7 @@ module.exports={
             's4':req.query.s4,
             's5':req.query.s5,
         }).then(msg=>{
-            res.send(`{ "success": "true" }`);
+            res.send(msg);
         },
         function(err){
             res.send(`{ "success": "false" }`);

@@ -119,9 +119,9 @@ module.exports={
     update:function(req,res){
         miniyield.update(
             {
-                'mining_id':req.query.Sid,
-                'source_id':req.query.Cid,
-                'company_id':req.query.thingid,
+                'mining_id':req.query.mining_id,
+                'source_id':req.query.source_id,
+                'company_id':req.query.company_id,
                 'sum':req.query.sum,
                 'ispublic':req.query.ispublic
             },
