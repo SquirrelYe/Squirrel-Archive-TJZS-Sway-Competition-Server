@@ -122,6 +122,20 @@ module.exports={
             console.log(err); 
         });
     },
+    //按ID查询
+    findByCondition:function(req,res){
+        game.findOne(
+            {
+                where:{'condition':req.query.condition}
+            }
+        )
+        .then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
 
 }
 

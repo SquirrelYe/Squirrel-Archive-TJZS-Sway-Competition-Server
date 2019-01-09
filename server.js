@@ -83,6 +83,9 @@ server.get('/index', function (req, res) {
 server.use('/admin', function (req, res) { //用户
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==0) admin.login(req, res)
+    if(req.query.judge==1) admin.findAll(req, res)
+    if(req.query.judge==2) admin.delete(req,res)
+    if(req.query.judge==3) admin.findById(req,res)
 });
 server.use('/sway', function (req, res) { //用户
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -257,6 +260,7 @@ server.use('/game', function (req, res) {
     if(req.query.judge==2) game.update(req,res)
     if(req.query.judge==3) game.delete(req,res)
     if(req.query.judge==4) game.findById(req,res)
+    if(req.query.judge==5) game.findByCondition(req,res)
 });
 server.use('/avemining', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");

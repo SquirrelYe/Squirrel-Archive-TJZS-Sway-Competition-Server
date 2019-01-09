@@ -64,8 +64,8 @@ module.exports={
     create:function(req,res){
         admin.create({
             'id':req.query.id,
-            'name':res.query.name,
-            'pass':res.query.pass,
+            'name':req.query.name,
+            'pass':req.query.pass,
         }).then(msg=>{
             res.send(msg);
         },
@@ -77,7 +77,7 @@ module.exports={
     delete:function(req,res){
         admin.destroy({
             'where':{
-                'id':res.query.id,
+                'id':req.query.id,
             }
         }).then(row=> {
             if(row === 0){
@@ -95,9 +95,9 @@ module.exports={
     //更新
     update:function(req,res){
         admin.update(
-            {'name':res.query.name},
+            {'name':req.query.name},
             {'where':{
-                'id':res.query.id,
+                'id':req.query.id,
             }
         }).then(msg=>{
             res.send(`{ "success": "true" }`);
