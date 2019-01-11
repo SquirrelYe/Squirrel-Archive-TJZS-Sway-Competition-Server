@@ -69,6 +69,9 @@ module.exports = {
     
     find_statistic:function(req,res){
         statistic.findAll({
+            'order': [
+                ['total', 'DESC'],
+            ],
             include: {
                 model: company, 
             }

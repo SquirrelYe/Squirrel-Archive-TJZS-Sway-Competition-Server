@@ -219,7 +219,11 @@ module.exports={
     transaction,
     //查询所有
     findAll:function(req,res){
-        transaction.findAll().then(msg=>{
+        transaction.findAll(
+            {
+                include: [{model: source},{model:commerresearch},{model:digger},{model:mining},{model:indusland},{model:factory},{model:line},{model:commerland},{model:research},{model:company,as:'me_1',},{model:company,as:'other_1'}]
+            }
+        ).then(msg=>{
             res.send(msg)
         },
         function(err){

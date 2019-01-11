@@ -19,22 +19,6 @@ let statistic = conn.define(
             'type': Sequelize.INTEGER(11), // 财年
             'allowNull': judge,        
         },
-        'name': {
-            'type': Sequelize.CHAR(255), // 公司名称
-            'allowNull': judge,
-        },
-        'legal': {
-            'type': Sequelize.CHAR(255), // 法人
-            'allowNull': judge,
-        },
-        'code': {
-            'type': Sequelize.CHAR(255), // 统一社会信用代码
-            'allowNull': judge,
-        },
-        'area': {
-            'type': Sequelize.CHAR(255), // 经营范围
-            'allowNull': judge,
-        },
         'float': {
             'type': Sequelize.CHAR(255), // 流动资金
             'allowNull': judge,
@@ -66,7 +50,13 @@ module.exports={
     statistic,
     //查询所有
     findAll:function(req,res){
-        statistic.findAll().then(msg=>{
+        statistic.findAll(
+            {
+                'order': [
+                    ['auction', 'DESC'],
+                ]
+            }
+        ).then(msg=>{
             res.send(msg)
         },
         function(err){
@@ -78,10 +68,6 @@ module.exports={
         statistic.create({
             'id':req.query.id,
             'Yearid':req.query.Yearid,
-            'name':req.query.name,
-            'legal':req.query.legal,
-            'code':req.query.code,
-            'area':req.query.area,
             'float':req.query.float,
             'fixed':req.query.fixed,
             'total':req.query.total,
@@ -89,7 +75,7 @@ module.exports={
             'condition':req.query.condition,
             'company_id':req.query.company_id,
         }).then(msg=>{
-            res.send(`{ "success": "true" }`);
+            res.send(msg);
         },
         function(err){
             res.send(`{ "success": "false" }`);
@@ -120,10 +106,6 @@ module.exports={
         statistic.update(
             {
                 'Yearid':req.query.Yearid,
-                'name':req.query.name,
-                'legal':req.query.legal,
-                'code':req.query.code,
-                'area':req.query.area,
                 'float':req.query.float,
                 'fixed':req.query.fixed,
                 'total':req.query.total,
@@ -147,10 +129,6 @@ module.exports={
         statistic.update(
             {
                 'Yearid':req.query.Yearid,
-                'name':req.query.name,
-                'legal':req.query.legal,
-                'code':req.query.code,
-                'area':req.query.area,
                 'float':req.query.float,
                 'fixed':req.query.fixed,
                 'total':req.query.total,
@@ -191,6 +169,16 @@ module.exports={
             console.log(err); 
         });        
     },
+    deleteAll(req,res){
+        conn.query('delete from statistics;')
+        .then(msg=>{
+            res.send(`{ "success": "true" }`);
+        },
+        function(err){
+            res.send(`{ "success": "false" }`);
+            console.log(err); 
+        });
+    }
 
 }
 

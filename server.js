@@ -294,6 +294,7 @@ server.use('/statistic', function (req, res) {
     if(req.query.judge==3) statistic.delete(req,res)
     if(req.query.judge==4) statistic.updateMoney(req,res)
     if(req.query.judge==5) statistic.findByCompany(req,res)
+    if(req.query.judge==6) statistic.deleteAll(req,res)
 });
 
 server.use('/oem', function (req, res) { 
