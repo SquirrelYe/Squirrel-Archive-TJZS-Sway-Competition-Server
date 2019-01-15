@@ -132,7 +132,7 @@ module.exports={
         });
     },
     updateSum:function(req,res){
-        miniyield.update(     //更改数量
+        industryyield.update(     //更改数量
             {
                 'sum':req.query.sum,
             },

@@ -19,7 +19,7 @@ var indusland_factory_line = conn.define('indusland_factory_line',
     'allowNull': true,
 },
 'stay':{
-    'type':Sequelize.INTEGER(11),
+    'type':Sequelize.DOUBLE(2),
     'allowNull': true,
 },
 'condition':{

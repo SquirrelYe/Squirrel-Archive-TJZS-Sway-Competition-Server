@@ -40,9 +40,6 @@ const oneToOne=require('./interface/test/oneToOne')
 const oneToMany=require('./interface/test/oneToMany')
 const manyToMany=require('./interface/test/manyToMany')
 
-
-
-
 var objmulter = multer({
     dest: "./www/upload"
 }); //dest指定上传文件地址
@@ -132,7 +129,7 @@ server.use('/commerresearch', function (req, res) {
     if(req.query.judge==3) commerresearch.delete(req,res)
     if(req.query.judge==4) commerresearch.findByYl(req,res)
     if(req.query.judge==5) commerresearch.findAllByCompany(req,res)
-    if(req.query.judge==6) commerresearch.findByCom(req,res)
+//    if(req.query.judge==6) commerresearch.findByCom(req,res)
     if(req.query.judge==7) commerresearch.findById(req,res)
 });
 server.use('/compete', function (req, res) { 
@@ -154,6 +151,7 @@ server.use('/industryyield', function (req, res) {
     if(req.query.judge==3) industryyield.delete(req,res)
     if(req.query.judge==4) industryyield.findByCompany(req,res)
     if(req.query.judge==5) industryyield.findByPublic(req,res)
+    if(req.query.judge==6) industryyield.updateSum(req,res)
 });
 server.use('/loan', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -185,6 +183,7 @@ server.use('/transaction', function (req, res) {
     if(req.query.judge==6) transaction.findByCommer(req,res)
     if(req.query.judge==7) transaction.findBySource(req,res)
     if(req.query.judge==8) transaction.findByCompany(req,res)
+    if(req.query.judge==9) transaction.findByCompanyAndType(req,res)
 });
 server.use('/commerland', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -308,6 +307,7 @@ server.use('/oem', function (req, res) {
     if(req.query.judge==6) oem.deleteByOem(req,res)
     if(req.query.judge==7) oem.deleteByOemAndCompany(req,res)
     if(req.query.judge==8) oem.findByOther(req,res)
+    if(req.query.judge==9) oem.findByCompanyAndCommerresearch(req,res)
 });
 
 

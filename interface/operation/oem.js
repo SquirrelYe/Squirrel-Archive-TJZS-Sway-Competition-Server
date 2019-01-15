@@ -82,10 +82,18 @@ module.exports={
     },
     //增加
     create:function(req,res){
-        oem.Create({            
+        oem.findOrCreate({ 
+            where: {
                 'me':req.query.me,
                 'other':req.query.other,
                 'commerresearch_id':req.query.commerresearch_id,
+            },
+            defaults: {                
+                'me':req.query.me,
+                'other':req.query.other,
+                'commerresearch_id':req.query.commerresearch_id,
+            }           
+                
         }).then(msg=>{
             res.send(msg);
         },
@@ -159,6 +167,25 @@ module.exports={
         });
     },
     //
+    findByCompanyAndCommerresearch:function(req,res){
+        oem.findAll(
+          {
+               where:{
+                   'me':req.query.me,
+                   'commerresearch_id':req.query.commerresearch_id
+                },
+               include:[{model:company,as:'me_2',},{model:company,as:'other_2'},{model:commerresearch}]
+
+         }
+        )
+        .then(msg=>{
+            res.send(msg);
+        },
+        function(err){
+            console.log(err); 
+        });
+    },
+
     findByOther:function(req,res){
         oem.findAll(
           {

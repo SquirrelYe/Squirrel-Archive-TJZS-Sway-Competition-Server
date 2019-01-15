@@ -20,15 +20,15 @@ let statistic = conn.define(
             'allowNull': judge,        
         },
         'float': {
-            'type': Sequelize.CHAR(255), // 流动资金
+            'type': Sequelize.DOUBLE(2), // 流动资金
             'allowNull': judge,
         },
         'fixed':{
-            'type':Sequelize.CHAR(255), // 固定资金
+            'type':Sequelize.DOUBLE(2), // 固定资金
             'allowNull':judge,
         },
         'total':{
-            'type':Sequelize.CHAR(255), // 总资产
+            'type':Sequelize.DOUBLE(2), // 总资产
             'allowNull':judge,
         },
         'brand':{
@@ -36,7 +36,7 @@ let statistic = conn.define(
             'allowNull':judge,
         },
         'condition':{
-            'type':Sequelize.CHAR(255), // 状态
+            'type':Sequelize.INTEGER(255), // 状态
             'allowNull':judge,
         },
         'company_id':{
@@ -138,12 +138,9 @@ module.exports={
             {'where':{
                 'company_id':req.query.company_id,
             }
-        }).then(msg=>{
-            res.send(`{ "success": "true" }`);
-        },
-        function(err){
-            res.send(`{ "success": "false" }`);
-            console.log(err); 
+        })
+        .then(msg=>{
+            res.send(msg);
         });
     },
     //按ID查询

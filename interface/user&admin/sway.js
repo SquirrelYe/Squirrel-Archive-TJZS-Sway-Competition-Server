@@ -101,6 +101,7 @@ module.exports={
             console.log(err); 
         });        
     },
+    //查询参赛者是否有公司
     selectUsersHaveCompany:function(req,res){
         sway.findAll({
                 'attributes':['company_id']
@@ -109,7 +110,7 @@ module.exports={
                 'id':req.query.sway_id
             }
         }).then(msg=>{ 
-            if(msg[0].company_id==null){
+            if(msg.company_id==null){
                 res.send(`{ "success": true }`);
             }else{
                 res.send(`{ "success": false }`);
@@ -239,7 +240,7 @@ module.exports={
                 'office':req.query.office
             },
             {'where':{
-                'id':req.query.sway_id,
+                'id':req.query.id,
             }
         }).then(msg=>{
             res.send(msg);

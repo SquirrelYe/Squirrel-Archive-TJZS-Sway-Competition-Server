@@ -203,19 +203,6 @@ module.exports={
             res.send(msg);
         })
     },
-    findByCom:function(req,res){
-        commerresearch.findAndCountAll(
-            {
-                    'where':{
-                        'company_id':req.query.company_id,
-                    },
-                    include:[{model: company},
-                        {model:commerresearch,as:'cid'}]
-            }
-        ).then(msg=>{
-            res.send(msg);
-        })
-    },
     findById:function(req,res){
         commerresearch.findById(req.query.id).then(msg=>{
             res.send(msg);

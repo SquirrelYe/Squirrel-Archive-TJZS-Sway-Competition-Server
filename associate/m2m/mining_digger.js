@@ -18,7 +18,7 @@ var mining_digger = conn.define('mining_digger',{
     'allowNull': true,
 },
 'stay':{
-    'type':Sequelize.INTEGER(11),
+    'type':Sequelize.DOUBLE(2),
     'allowNull': true,
 },
 'condition':{

@@ -367,6 +367,22 @@ module.exports={
         }).then(msg => {
             res.send(msg);
         })
+    },
+    //查看自己公司的交易明细
+    findByCompanyAndType:function(req,res){
+        transaction.findAll(
+        {
+            where:{
+               $or:[
+                    {'me':req.query.company_id},
+                    {'other':req.query.company_id}
+               ],
+               type:req.query.type
+            },
+         include: [{model: source},{model:commerresearch},{model:digger},{model:mining},{model:indusland},{model:factory},{model:line},{model:commerland},{model:research},{model:company,as:'me_1',},{model:company,as:'other_1'}]
+        }).then(msg => {
+            res.send(msg);
+        })
     }
 
 }
