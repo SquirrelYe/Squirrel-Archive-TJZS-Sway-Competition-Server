@@ -89,7 +89,7 @@ router.use('/industryyield_commerresearch',function(req,res){
     if(req.query.judge==1) industryyield_commerresearch.update(req,res);
     if(req.query.judge==2) industryyield_commerresearch.del(req,res);
     if(req.query.judge==3) industryyield_commerresearch.findByCompany(req,res);
-    if(req.query.judge==4) industryyield_commerresearch.findAll(req,res)
+//    if(req.query.judge==4) industryyield_commerresearch.findAll(req,res)
 })
 router.use('/company_mining',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -103,7 +103,7 @@ router.use('/company_mining',function(req,res){
 router.use('/company_sway',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==-1) company_sway.create(req,res);
-//    if(req.query.judge==0) company_sway.add(req,res);
+    if(req.query.judge==4) company_sway.add(req,res);
     if(req.query.judge==0) company_sway.update(req,res);
     if(req.query.judge==1) company_sway.del(req,res);
     if(req.query.judge==2) company_sway.find_company(req,res);
@@ -152,8 +152,7 @@ router.use('/commerland_research',function(req,res){
     if(req.query.judge==4) commerland_research.find_commerland(req,res);
     if(req.query.judge==5) commerland_research.selectNumber(req,res);
     if(req.query.judge==6) commerland_research.updateResearch(req,res);
-    if(req.query.judge==6) commerland_research.updateResearch(req,res);
-    if(req.query.judge==6) commerland_research.find_commerland_1(req,res);
+    if(req.query.judge==7) commerland_research.find_commerland_1(req,res);
 })
 
 
@@ -170,7 +169,7 @@ router.use('/company_transaction',function(req,res){
 router.use('/indusland_industryyield',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==-1) indusland_industryyield.create(req,res);
-    if(req.query.judge==0) indusland_industryyield.add(req,res);
+//    if(req.query.judge==0) indusland_industryyield.add(req,res);
     if(req.query.judge==1) indusland_industryyield.update(req,res);
     if(req.query.judge==2) indusland_industryyield.del(req,res);
     if(req.query.judge==3) indusland_industryyield.find_indusland(req,res);
@@ -215,8 +214,8 @@ router.use('/mining_digger',function(req,res){
     if(req.query.judge==1) mining_digger.update(req,res);
     if(req.query.judge==2) mining_digger.update_md(req,res);
     if(req.query.judge==3) mining_digger.del(req,res);
-    if(req.query.judge==4) mining_digger.find_more_1(req,res);
-    if(req.query.judge==5) mining_digger.find_more_2(req,res); 
+    if(req.query.judge==4) mining_digger.find_digger(req,res);
+    if(req.query.judge==5) mining_digger.find_miniing(req,res); 
     if(req.query.judge==6) mining_digger.update_number(req,res);
     if(req.query.judge==7) mining_digger.selectNumber(req,res);
     if(req.query.judge==8) mining_digger.selectOneNumber(req,res);

@@ -103,13 +103,14 @@ module.exports={
     },
     //查询参赛者是否有公司
     selectUsersHaveCompany:function(req,res){
-        sway.findAll({
+        sway.findOne({
                 'attributes':['company_id']
             ,
             'where':{ 
                 'id':req.query.sway_id
             }
         }).then(msg=>{ 
+            console.log(msg)
             if(msg.company_id==null){
                 res.send(`{ "success": true }`);
             }else{
@@ -240,7 +241,7 @@ module.exports={
                 'office':req.query.office
             },
             {'where':{
-                'id':req.query.id,
+                'id':req.query.sway_id,
             }
         }).then(msg=>{
             res.send(msg);

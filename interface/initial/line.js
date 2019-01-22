@@ -102,7 +102,7 @@ module.exports={
                 'conrequire':req.query.conrequire,
             },
             {'where':{
-                'Lid':req.query.Lid,
+                'id':req.query.id,
             }
         }).then(msg=>{
             res.send(`{ "success": "true" }`);

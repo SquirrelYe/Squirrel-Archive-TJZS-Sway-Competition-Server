@@ -26,18 +26,18 @@ module.exports = {
             res.send(msg);
         });
     },
-    // add: function (req, res) {
-    //     co(function* () {
-    //         var sway1 = yield sway.create({'id':req.query.sway_id}); 
-    //         var company1 = yield company.findById(req.query.company_id)  
-    //         yield sway1.setCompany(company1) 
-    //         .then(msg => {
-    //             res.send(msg);
-    //         })
-    //     }).catch(function (e) {
-    //         console.log(e);
-    //     });
-    // },
+    add: function (req, res) {
+        co(function* () {
+            var sway1 = yield sway.create({'id':req.query.sway_id}); 
+            var company1 = yield company.findById(req.query.company_id)  
+            yield sway1.setCompany(company1) 
+            .then(msg => {
+                res.send(msg);
+            })
+        }).catch(function (e) {
+            console.log(e);
+        });
+    },
     update: function (req, res) {
         co(function* () {
             var sway1 = yield sway.findById(req.query.sway_id)  

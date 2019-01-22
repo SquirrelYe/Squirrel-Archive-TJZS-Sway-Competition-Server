@@ -38,7 +38,7 @@ module.exports = {
         co(function* () {
             var miniyield1 = yield miniyield.findById(req.query.miniyield_id)  
             var source1 = yield source.findById(req.query.source_id)  
-            yield source1.setMiniyield(miniyield1) 
+            yield miniyield1.setSource(source1) 
             .then(msg => {
                 res.send(msg);
             })

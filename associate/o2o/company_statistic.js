@@ -24,7 +24,7 @@ module.exports = {
     },
     add: function (req, res) {
         co(function* () {
-            var statistic1 = yield statistic.create({'id':req.requry.statistic_id}); 
+            var statistic1 = yield statistic.create({'id':req.query.statistic_id}); 
             var company1 = yield company.findById(req.query.company_id)  
             yield statistic1.setCompany(company1) 
             .then(msg => {
@@ -38,7 +38,7 @@ module.exports = {
         co(function* () {
             var statistic1 = yield statistic.findById(req.query.statistic_id)  
             var company1 = yield company.findById(req.query.company_id)  
-            yield company1.setStatistic(statistic1) 
+            yield statistic1.setCompany(company1) 
             .then(msg => {
                 res.send(msg);
             })

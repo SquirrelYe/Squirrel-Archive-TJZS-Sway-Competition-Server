@@ -53,7 +53,7 @@ module.exports={
         statistic.findAll(
             {
                 'order': [
-                    ['auction', 'DESC'],
+                    ['total', 'DESC'],
                 ]
             }
         ).then(msg=>{
@@ -94,7 +94,7 @@ module.exports={
                 res.send('error')
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": "true" }`);
              }
           },
           function(err){

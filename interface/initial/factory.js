@@ -73,7 +73,7 @@ module.exports={
                 res.send('error')
              }else{
                 console.log('成功删除记录');
-                res.send('msg')
+                res.send(`{ "success": "true" }`);
              }
           },
           function(err){

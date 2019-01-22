@@ -192,7 +192,7 @@ module.exports={
         });
     },
 
-    //计算某个公司矿区的总成交价
+    //计算某个财年矿区的总成交价
     getSumofMining:function(req,res){
         mining.findAndCountAll({
             attributes: [[conn.literal('SUM(price)'), 'result']],

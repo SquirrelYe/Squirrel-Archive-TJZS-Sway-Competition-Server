@@ -198,7 +198,7 @@ module.exports={
             console.log(err); 
         });
     },
-    //计算某个公司工业用地的总成交价
+    //计算工业用地的总成交价
     getSumofIndusland:function(req,res){
         indusland.findAndCountAll({
             attributes: [[conn.literal('SUM(price)'), 'result']],

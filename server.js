@@ -260,6 +260,7 @@ server.use('/game', function (req, res) {
     if(req.query.judge==3) game.delete(req,res)
     if(req.query.judge==4) game.findById(req,res)
     if(req.query.judge==5) game.findByCondition(req,res)
+    if(req.query.judge==6) game.findLast(req,res)
 });
 server.use('/avemining', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");

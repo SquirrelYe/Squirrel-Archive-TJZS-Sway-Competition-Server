@@ -38,7 +38,7 @@ module.exports = {
         co(function* () {
             var miniyield1 = yield miniyield.findById(req.query.miniyield_id)  
             var mining1 = yield mining.findById(req.query.mining_id)  
-            yield mining1.setMiniyield(miniyield1) 
+            yield miniyield1.setMining(mining1)  
             .then(msg => {
                 res.send(msg);
             })

@@ -119,7 +119,7 @@ module.exports = {
     },
     del: function (req, res) {
         co(function* () {
-            var mining1 = yield mining.findById(1) 
+            var mining1 = yield mining.findById(req.query.mining_id) 
             yield mining1.setDiggers(null) 
             .then(msg => {
                 res.send(msg);
@@ -128,7 +128,7 @@ module.exports = {
             console.log(e);
         });
     },
-    find_more_1: function (req, res) {
+    find_digger: function (req, res) {
         digger.findAll({
             include: {
                 model: mining, // 关联查询，关联外键模型
@@ -137,7 +137,7 @@ module.exports = {
             res.send(msg);
         })
     },
-    find_more_2: function (req, res) {
+    find_mining: function (req, res) {
         mining.findAll({
             where:{'company_id':req.query.company_id},
             include: {

@@ -22,23 +22,23 @@ module.exports = {
             res.send(msg);
         });
     },
-    add: function (req, res) {
-        co(function* () {
-            var industryyield1 = yield industryyield.create({'id':req.requry.industryyield_id}); 
-            var indusland1 = yield indusland.findById(req.query.indusland_id)  
-            yield industryyield1.setIndusland(indusland1) 
-            .then(msg => {
-                res.send(msg);
-            })
-        }).catch(function (e) {
-            console.log(e);
-        });
-    },
+    // add: function (req, res) {
+    //     co(function* () {
+    //         var industryyield1 = yield industryyield.create({'id':req.requry.industryyield_id}); 
+    //         var indusland1 = yield indusland.findById(req.query.indusland_id)  
+    //         yield industryyield1.setIndusland(indusland1) 
+    //         .then(msg => {
+    //             res.send(msg);
+    //         })
+    //     }).catch(function (e) {
+    //         console.log(e);
+    //     });
+    // },
     update: function (req, res) {
         co(function* () {
             var industryyield1 = yield industryyield.findById(req.query.industryyield_id)  
             var indusland1 = yield indusland.findById(req.query.indusland_id)  
-            yield indusland1.setIndustryyield(industryyield1) 
+            yield industryyield1.setIndusland(indusland1) 
             .then(msg => {
                 res.send(msg);
             })
