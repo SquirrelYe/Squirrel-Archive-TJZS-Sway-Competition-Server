@@ -81,7 +81,10 @@ module.exports = {
     },
     find_commerland: function (req, res) {
         commerland.findAll({
-            where:{'company_id':req.query.company_id},
+            where:{
+                'company_id':req.query.company_id,
+                'condition':3
+            },
             include: {
                 model: research, 
             }

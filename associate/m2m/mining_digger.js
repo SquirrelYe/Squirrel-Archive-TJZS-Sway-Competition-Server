@@ -139,11 +139,14 @@ module.exports = {
     },
     find_mining: function (req, res) {
         mining.findAll({
-            where:{'company_id':req.query.company_id},
+            where:{
+                'company_id':req.query.company_id,
+                'condition':3
+            },
             include: {
                 model: digger, // 关联查询，关联外键模型
             }       
-    }).then(msg => {
+        }).then(msg => {
             res.send(msg);
         })
     },

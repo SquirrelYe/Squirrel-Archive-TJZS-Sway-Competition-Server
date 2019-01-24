@@ -215,7 +215,7 @@ router.use('/mining_digger',function(req,res){
     if(req.query.judge==2) mining_digger.update_md(req,res);
     if(req.query.judge==3) mining_digger.del(req,res);
     if(req.query.judge==4) mining_digger.find_digger(req,res);
-    if(req.query.judge==5) mining_digger.find_miniing(req,res); 
+    if(req.query.judge==5) mining_digger.find_mining(req,res); 
     if(req.query.judge==6) mining_digger.update_number(req,res);
     if(req.query.judge==7) mining_digger.selectNumber(req,res);
     if(req.query.judge==8) mining_digger.selectOneNumber(req,res);

@@ -127,7 +127,10 @@ module.exports = {
     //公司对应的工厂
     find_more_2: function (req, res) {
         indusland.findAll({
-            where:{'company_id':req.query.company_id},
+            where:{
+                'company_id':req.query.company_id,
+                'condition':3
+            },
             include: {
                 model: factory, // 关联查询，关联外键模型
             }

@@ -134,7 +134,7 @@ server.use('/commerresearch', function (req, res) {
 });
 server.use('/compete', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");
-    if(req.query.judge==0) compete.findAll(req, res)
+    if(req.query.judge==0) compete.findAll(req,res)
     if(req.query.judge==1) compete.create(req,res)
     if(req.query.judge==2) compete.update(req,res)
     if(req.query.judge==3) compete.delete(req,res)
