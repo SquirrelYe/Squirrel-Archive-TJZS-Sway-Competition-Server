@@ -125,8 +125,9 @@ module.exports={
                 'sum':req.query.sum,
                 'ispublic':req.query.ispublic
             },
-            {'where':{
-                'id':req.query.id,
+            {
+                'where':{
+                    'id':req.query.id,
             }
         }).then(msg=>{
             res.send(`{ "success": "true" }`);

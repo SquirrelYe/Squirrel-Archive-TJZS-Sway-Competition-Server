@@ -357,10 +357,13 @@ module.exports={
     findByCompany:function(req,res){
         transaction.findAll(
         {
+            'order': [
+                ['updated_at', 'DESC'],
+            ],
             where:{
                $or:[
-                   {'me':req.query.company_id},
-                {'other':req.query.company_id}
+                    {'me':req.query.company_id},
+                    {'other':req.query.company_id}
                ]
             },
          include: [{model: source},{model:commerresearch},{model:digger},{model:mining},{model:indusland},{model:factory},{model:line},{model:commerland},{model:research},{model:company,as:'me_1',},{model:company,as:'other_1'}]

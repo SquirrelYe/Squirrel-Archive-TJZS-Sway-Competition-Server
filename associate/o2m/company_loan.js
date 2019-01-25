@@ -72,6 +72,9 @@ module.exports = {
     },
     find_loan: function (req, res) {
         loan.findAll({
+            'order': [
+                ['end', 'DESC'],
+            ],
             include: {
                 model: company, 
             }
