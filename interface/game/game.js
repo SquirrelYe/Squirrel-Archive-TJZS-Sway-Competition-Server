@@ -124,9 +124,11 @@ module.exports={
     },
     //按Condition查询
     findByCondition:function(req,res){
-        game.findOne(
+        game.findAll(
             {
-                where:{'condition':req.query.condition}
+                where:{
+                    'condition':req.query.condition
+                }
             }
         )
         .then(msg=>{
