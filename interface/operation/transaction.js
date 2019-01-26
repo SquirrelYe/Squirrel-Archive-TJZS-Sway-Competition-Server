@@ -375,6 +375,9 @@ module.exports={
     findByCompanyAndType:function(req,res){
         transaction.findAll(
         {
+            'order': [
+                ['updated_at', 'DESC'],
+            ],
             where:{
                $or:[
                     {'me':req.query.company_id},
