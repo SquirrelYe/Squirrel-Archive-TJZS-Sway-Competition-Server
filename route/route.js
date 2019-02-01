@@ -103,11 +103,11 @@ router.use('/company_mining',function(req,res){
 router.use('/company_sway',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.query.judge==-1) company_sway.create(req,res);
-    if(req.query.judge==4) company_sway.add(req,res);
     if(req.query.judge==0) company_sway.update(req,res);
     if(req.query.judge==1) company_sway.del(req,res);
     if(req.query.judge==2) company_sway.find_company(req,res);
     if(req.query.judge==3) company_sway.find_sway(req,res);
+    if(req.query.judge==4) company_sway.add(req,res);
 })
 router.use('/source_mining',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");

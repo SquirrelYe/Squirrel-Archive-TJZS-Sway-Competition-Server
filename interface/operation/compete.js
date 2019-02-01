@@ -70,6 +70,7 @@ module.exports={
             where:{
                 'type':req.query.type,
                 'thingid':req.query.thingid,
+                'company_id':req.query.company_id,
             },
             defaults:{
                 'id':req.query.id,
