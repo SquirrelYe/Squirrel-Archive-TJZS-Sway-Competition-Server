@@ -373,17 +373,26 @@ module.exports={
     },
     //查看自己公司的交易明细
     findByCompanyAndType:function(req,res){
+        // select * from transactions where me=1 or other =1 and type =1 or type =2 order by updated_at desc;
         transaction.findAll(
         {
             'order': [
                 ['updated_at', 'DESC'],
             ],
             where:{
-               $or:[
-                    {'me':req.query.company_id},
-                    {'other':req.query.company_id}
-               ],
-               type:req.query.type
+                $and:[
+                    {
+                        $or: [
+                            {'me':req.query.company_id},
+                            {'other':req.query.company_id}
+                        ]
+                    },
+                    {
+                        'kind': {
+                            $in: [1, 2]
+                        }
+                    }
+                ]
             },
          include: [{model: source},{model:commerresearch},{model:digger},{model:mining},{model:indusland},{model:factory},{model:line},{model:commerland},{model:research},{model:company,as:'me_1',},{model:company,as:'other_1'}]
         }).then(msg => {

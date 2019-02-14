@@ -21,6 +21,10 @@ let mining = conn.define(
             'type': Sequelize.CHAR(255), //矿区星级
             'allowNull': judge
         },
+        'totalreserve': {
+            'type': Sequelize.DOUBLE(255), //总储量（恒定不变）
+            'allowNull': judge
+        },
         'reserve': {
             'type': Sequelize.DOUBLE(255), //储量
             'allowNull': judge
@@ -99,6 +103,7 @@ module.exports={
         mining.create({
             'id':req.query.id,
             'star':req.query.star,
+            'totalreserve':req.query.totalreserve,
             'reserve':req.query.reserve,
             'deprelief':req.query.deprelief,
             'repurchase':req.query.repurchase,
