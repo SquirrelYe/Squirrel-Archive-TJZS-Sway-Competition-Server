@@ -25,6 +25,7 @@ var sendMail = function (recipient, subject, html,res) {
         html: html
 
     }, function (error, response) {
+        console.error(error)
         if (error==null) {
             console.log('发送成功')
             res.send(`{ "success": "true" }`); 

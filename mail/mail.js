@@ -6,7 +6,7 @@ module.exports={
         var mail_address=req.query.mail_address;  
         var code=req.query.code;
         var msg=`
-        <h3>AESEN 联盟 注册系统</h3>
+        <h3>Sway 商赛 注册系统</h3>
         <br> 您的验证码为：
         <br> <h3>${code}</h3>
         `
