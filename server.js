@@ -237,6 +237,7 @@ server.use('/mining', function (req, res) {
     if(req.query.judge==3) mining.delete(req,res)
     if(req.query.judge==4) mining.findAllByCondition(req,res)
     if(req.query.judge==5) mining.getSumofMining(req,res)
+    if(req.query.judge==6) mining.findByCompany_id(req,res)
 });
 server.use('/research', function (req, res) { 
     res.setHeader("Access-Control-Allow-Origin", "*");

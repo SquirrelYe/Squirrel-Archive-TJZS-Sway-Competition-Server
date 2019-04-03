@@ -78,6 +78,9 @@ module.exports={
     findAll:function(req,res){
         indusland.findAll(
             {
+                'order': [
+                    ['updated_at', 'DESC'],
+                ],
                 include:{
                     model:company
                 }

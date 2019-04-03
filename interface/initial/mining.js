@@ -87,6 +87,9 @@ module.exports={
     findAll:function(req,res){
         mining.findAll(
             {
+                'order': [
+                    ['updated_at', 'DESC'],
+                ],
                 include:{
                     model:company
                 }
@@ -196,7 +199,18 @@ module.exports={
             console.log(err); 
         });
     },
-
+    // 按company_id查询
+    findByCompany_id:function(req,res){
+        mining.findAndCountAll({
+            where:{
+                'company_id':req.query.company_id,
+                'condition':3
+            },
+        })
+        .then(msg =>{
+            res.send(msg);
+        })
+    },
     //计算某个财年矿区的总成交价
     getSumofMining:function(req,res){
         mining.findAndCountAll({

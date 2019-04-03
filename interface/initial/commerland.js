@@ -70,6 +70,9 @@ module.exports={
     findAll:function(req,res){
         commerland.findAll(
             {
+                'order': [
+                    ['updated_at', 'DESC'],
+                ],
                 include:{
                     model:company
                 }
