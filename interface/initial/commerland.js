@@ -71,7 +71,7 @@ module.exports={
         commerland.findAll(
             {
                 'order': [
-                    ['updated_at', 'DESC'],
+                    ['created_at', 'DESC'],
                 ],
                 include:{
                     model:company
