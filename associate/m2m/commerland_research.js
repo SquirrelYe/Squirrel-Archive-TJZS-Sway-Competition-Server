@@ -4,8 +4,6 @@ const commerland = require('../../interface/initial/commerland').commerland;
 //yield
 var co = require('co');
 
-
-
 //外键在 
 research.hasMany(commerland, {
     foreignKey: 'research_id',
@@ -15,8 +13,6 @@ commerland.belongsTo(research, {
     foreignKey: 'research_id',
     constraints: false
 });
-
-
 
 module.exports = {
     creat: function (req, res) {

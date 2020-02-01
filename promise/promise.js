@@ -7,12 +7,12 @@ module.exports = {
     //sequelize ORM对象关系映射 
     connection:function(req,res){
         var sequelize = new Sequelize(
-            'sway2', // 数据库名
+            'YX_TJZS_SWAY', // 数据库名
             'root',   // 用户名
-            'yexuan@0628',   // 用户密码
+            'yexuan0628',   // 用户密码
             {
                 'dialect': 'mysql',  // 数据库使用mysql
-                'host': '39.97.175.5', // 数据库服务器ip
+                'host': '127.0.0.1', // 数据库服务器ip
                 'port': 3306,        // 数据库服务器端口
                 'define': {
                     // 字段以下划线（_）来分割（默认是驼峰命名风格）

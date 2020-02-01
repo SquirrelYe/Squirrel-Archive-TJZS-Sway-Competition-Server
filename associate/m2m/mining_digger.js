@@ -66,7 +66,8 @@ module.exports = {
                 'id':req.query.id,
                 'mining_id':req.query.mining_id,
                 'digger_id':req.query.digger_id,
-                'number':req.query.number
+                'number':req.query.number,
+                'condition':0
             }
         }).then(msg=>{
             res.send(msg);
@@ -91,7 +92,8 @@ module.exports = {
     update_number:function(req,res){
         mining_digger.update(
             {
-                'number':req.query.number
+                'number':req.query.number,
+                'condition':0
             },
             {'where':{
                 'mining_id':req.query.mining_id,
