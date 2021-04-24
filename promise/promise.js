@@ -9,7 +9,8 @@ module.exports = {
         var sequelize = new Sequelize(
             'YX_TJZS_SWAY', // 数据库名
             'root',   // 用户名
-            'yexuan0628',   // 用户密码
+            '12345',   // 用户密码
+            // 'yexuan@0628YX..', // 线上环境密码
             {
                 'dialect': 'mysql',  // 数据库使用mysql
                 'host': '127.0.0.1', // 数据库服务器ip
