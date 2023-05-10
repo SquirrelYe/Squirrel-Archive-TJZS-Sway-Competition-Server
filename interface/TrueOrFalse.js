@@ -1,3 +1,3 @@
 let judge = true;
 
-exports.judge=judge;
+exports.judge = judge;
